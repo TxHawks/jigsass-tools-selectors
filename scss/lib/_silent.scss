@@ -1,0 +1,64 @@
+// *************************************
+//
+// # JigSass Selectors silent
+// -> Settings an utils for silencing
+//    JigSass CSS output.
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+////
+/// @group Selectors - 02 Silent
+////
+//
+// *************************************
+
+// -------------------------------------
+// Functions
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+/// Determines id jigsass should output CSS.
+/// ---
+/// @type {Boolean}
+/// ---
+$jigsass-silent: false !default;
+
+
+
+
+
+// -------------------------------------
+// Mixins
+// -------------------------------------
+
+/// Disable CSS output.
+/// ---
+@mixin jigsass-mute() {
+  $jigsass-silent: true !global;
+}
+
+/// Enable CSS output.
+/// ---
+@mixin jigsass-unmute() {
+  $jigsass-silent: false !global;
+}
+
+/// Set a local namespace to prefix all classes generated
+/// withing the context of the mixin with.
+/// ---
+/// @param {String} $namespace - The namespace to prepend.
+/// ---
+@mixin jigsass-if-not-silent() {
+  @if (not $jigsass-silent) {
+    @content;
+  }
+}

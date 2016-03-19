@@ -1,0 +1,55 @@
+// *************************************
+//
+// # jigsass-tools-selectors
+// -> Mixins to generate maintainable and scalable css selectors with zero bloat
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+// *************************************
+
+@charset 'UTF-8';
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+/// A container to store the names of generated selectors.
+///
+/// Once populated, its structure will be as follows:
+///
+/// ```scss
+/// $_jigsass-selectors: (
+///   name: (
+///     breakpoint: (
+///       modifier: false,    // true:    Was included;
+///                           // silent:  Was in silent mod when first
+///                           //          included, don't touch even if
+///                           //          included again.
+///                           // false:   Wasn't called yet. Set to `true`
+///                           //          or `silent` if called.
+///     )
+///   )
+/// );
+/// ```
+/// ---
+/// @access private
+/// ---
+/// @group Selectors
+/// ---
+$_jigsass-selectors: () !default;
+
+
+
+
+
+// -------------------------------------
+// Imports
+// -------------------------------------
+
+@import 'lib/silent';
+@import 'lib/namespace';
+@import 'lib/helpers';
+@import 'lib/object';
+@import 'lib/block';
+@import 'lib/util';

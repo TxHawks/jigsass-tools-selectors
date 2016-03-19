@@ -1,0 +1,209 @@
+// *************************************
+//
+// # Util
+// -> Define and call utility classes
+//    without bloat.
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+//
+// *************************************
+
+@charset 'UTF-8';
+
+// -------------------------------------
+// Dependencies
+// -------------------------------------
+
+@if (not (global-variable-exists(jigsass-breakpoints) and mixin-exists(jigsass-mq))) {
+  @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-mq`. Please import it.';
+}
+
+@if (not (function-exists(jigsass-set))) {
+  @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-maps`. Please import it.';
+}
+
+@if (not function-exists(jigsass-strip-unit)) {
+  @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-typography`. ' +
+    'Please import it before this file.';
+}
+
+
+
+
+
+// -------------------------------------
+// Functions
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Mixins
+// -------------------------------------
+
+/// Define a utility class
+/// ---
+/// @param {String} $name
+///   The name of the utility class being defined, sans modifiers.
+/// ---
+/// @group Selectors - 04 Define
+/// ---
+@mixin jigsass-define-util($name) {
+  // Don't do anything if the utility wasn't included
+  // with `@include jigsass-util($name)` at some point
+  // in the past.
+  @if (map-has-key($_jigsass-selectors, $name)) {
+    // Reset util modifier in global scope
+    $jigsass-util-modifier: null !global;
+
+
+    @each $bp, $modifiers in map-get($_jigsass-selectors, $name) {
+      @each $modifier, $was-included in $modifiers {
+        @if ($was-included and $was-included != 'silent') {
+          // Save $modifier to global scope, so that it is available to `@content`.
+          $jigsass-util-modifier: if($modifier == no-modifier, null, $modifier) !global;
+
+          @include _jigsass-define-util($name, $bp) {
+            @content;
+          }
+
+          // Reset util modifier in global scope
+          $jigsass-util-modifier: null !global;
+        }
+      }
+    }
+  }
+}
+
+
+/// Generate CSS of a utility class
+///
+/// `jigsass-util` must be `@include`d **before** the util class
+/// it calls is defined.
+///
+/// No matter how many times the mixin is called with a
+/// certain set of argument, only a single selector will
+/// be created in the generated CSS.
+///
+/// **The generated class will be created where it
+/// was defined**, not where it was called.
+///
+/// If `$jigsass-silent` is set to `true` when the `jigsass-util`
+/// is first called with a certain set of argument, no class
+/// will be generated for that argument set.
+/// ---
+/// @param {String} $name
+///   The name of the object to generate, as previously
+///   defined by calling jigsass-define-object
+/// @param {String | Boolean} $from
+///   The name of breakpoint used as the min-width condition.
+/// @param {String | Boolean} $until
+///   The name of breakpoint used as the max-width condition.
+/// @param {String | Boolean} $misc
+///   The name of a miscellaneous media query condition.
+/// @param {String | Boolean} $modifier
+///   A modifier's name
+/// ---
+/// @group Selectors - 05 Require
+/// ---
+@mixin jigsass-util($name, $from: false, $until: false, $misc: false, $modifier: false) {
+  @if (not map-has-key($_jigsass-selectors, $name)) {
+    $_jigsass-selectors: map-merge(
+      $_jigsass-selectors,
+      _jigsass-generate-selector-map($name)
+    );
+  }
+
+  // Check if util was already included
+  $_was-included: _jigsass-class-was-included($name, $from, $until, $misc, $modifier);
+
+  // Generate selector.
+  // Will only generate CSS once, where it was defined,
+  // regardless of how many times `jigsass-util` was called
+  // with the same arguments.
+  @if (not $_was-included) {
+    // Make sure $modifier is not called `no-modifier`.
+    @if ($modifier) {
+      @if ($modifier == 'no-modifier') {
+        @error 'jigsass-util: A jigsass util class modifier cannot be called `no-modifier`. ' +
+          '(from #{$name}).';
+      }
+    }
+
+    $_bp-str: _jigsass-bp-string($from, $until, $misc);
+
+    // Set class as defined in the `$_jigsass-selectors` map.
+    $_selector-map: (
+      $name: (
+        $_bp-str: (
+          $modifier or no-modifier: if($jigsass-silent, silent, true)
+        )
+      )
+    );
+
+    $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
+  }
+}
+
+
+
+// -------------------------------------
+// Private mixins
+// -------------------------------------
+
+/// ---
+/// Private util used to abstract away selector generation
+/// ---
+/// @param {String} $name
+///   The name of the utility class being defined, sans modifiers.
+/// @param {String} $bp-str
+///   A string representing media query conditions in the following format:
+///   `from-#{$width-bp}-until-#{$width-bp}-when-#{$misc-bp}` and where each
+///   part is optional
+/// ---
+/// @access private
+/// ---
+/// @group Selectors - 04 Define
+/// ---
+@mixin _jigsass-define-util($name, $bp-str) {
+  $_modifier: if(
+    $jigsass-util-modifier,
+    '--#{$jigsass-util-modifier}',
+    ''
+  );
+
+  $_mq-args: _jigsass-mq-args-parser($bp-str);
+
+  $_selector: '.#{jigsass-get-namespace()}#{$name}#{$_modifier}';
+
+  $_selector: if(
+    $bp-str == no-breakpoint,
+    $_selector,
+    #{$_selector}--#{$bp-str}
+  );
+
+  @include jigsass-mq(
+    $from: map-get($_mq-args, from),
+    $until: map-get($_mq-args, until),
+    $misc: map-get($_mq-args, misc)
+  ) {
+    #{$_selector} {
+      @content;
+    }
+  }
+}

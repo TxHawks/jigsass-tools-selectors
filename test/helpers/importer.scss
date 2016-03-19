@@ -1,0 +1,45 @@
+// *****************************
+// Importer for testing partials
+// *****************************
+
+@charset 'UTF-8';
+
+$jigsass-breakpoints: (
+  lengths: (
+    default: 0,
+    s: 320px,
+    m: 720px,
+    l: 1024px
+  ),
+
+  features: (
+    landscape: '(orientation: landscape)',
+    portrait: '(orientation: portrait)'
+  )
+) !default;
+
+// General use testing helpers
+@import 'test/helpers/_test-helpers.scss';
+
+// Import project files.
+@import 'node_modules/jigsass-tools-maps/scss/index';
+@import 'node_modules/jigsass-tools-mq/scss/index';
+@import 'node_modules/jigsass-tools-typography/scss/index';
+
+
+// Import project files.
+@import 'scss/index.scss';
+
+@mixin test-define-object {
+}
+
+@mixin test-silent($silent: false) {
+  $_orig-silent: $jigsass-silent;
+  $jigsass-silent: $silent !global;
+
+  @content
+
+  $jigsass-silent: $_orig-silent !global;
+}
+
+

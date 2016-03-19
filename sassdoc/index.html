@@ -1,0 +1,704 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Jigsass-tools-selectors - v0.0.0</title><link rel="stylesheet" href="assets/css/main.css"><script type="text/javascript">WebFontConfig={google:{families:["Roboto:400,100,300,500:latin"]}},function(){var e=document.createElement("script");e.src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js",e.type="text/javascript",e.async="true";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}();</script><meta name="viewport" content="width=device-width"><meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"><!-- Open Graph tags --><meta property="og:title" content="Jigsass-tools-selectors - SassDoc"><meta property="og:type" content="website"><meta property="og:description" content="<p>Mixins to generate maintainable and scalable css selectors with zero bloat</p>
+"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><img class="sidebar__logo" src="assets/images/favicon.png"></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="selectors"><a href="#selectors">selectors</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors-variable"><a href="#selectors-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="_jigsass-selectors" data-type="variable"><a href="#variable-_jigsass-selectors">_jigsass-selectors</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="selectors - 01 namespace"><a href="#selectors - 01 namespace">selectors - 01 namespace</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 01 namespace-variable"><a href="#selectors - 01 namespace-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-namespace" data-type="variable"><a href="#variable-jigsass-namespace">jigsass-namespace</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 01 namespace-mixin"><a href="#selectors - 01 namespace-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-set-local-namespace" data-type="mixin"><a href="#mixin-jigsass-set-local-namespace">jigsass-set-local-namespace</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 01 namespace-function"><a href="#selectors - 01 namespace-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-get-namespace" data-type="function"><a href="#function-jigsass-get-namespace">jigsass-get-namespace</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="selectors - 02 silent"><a href="#selectors - 02 silent">selectors - 02 silent</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 02 silent-variable"><a href="#selectors - 02 silent-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-silent" data-type="variable"><a href="#variable-jigsass-silent">jigsass-silent</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 02 silent-mixin"><a href="#selectors - 02 silent-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-mute" data-type="mixin"><a href="#mixin-jigsass-mute">jigsass-mute</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-unmute" data-type="mixin"><a href="#mixin-jigsass-unmute">jigsass-unmute</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-if-not-silent" data-type="mixin"><a href="#mixin-jigsass-if-not-silent">jigsass-if-not-silent</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="selectors - 03 helpers"><a href="#selectors - 03 helpers">selectors - 03 helpers</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 03 helpers-function"><a href="#selectors - 03 helpers-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="_jigsass-gen-class-name" data-type="function"><a href="#function-_jigsass-gen-class-name">_jigsass-gen-class-name</a></li><li class="sidebar__item sassdoc__item" data-name="_jigsass-class-was-included" data-type="function"><a href="#function-_jigsass-class-was-included">_jigsass-class-was-included</a></li><li class="sidebar__item sassdoc__item" data-name="_jigsass-bp-string" data-type="function"><a href="#function-_jigsass-bp-string">_jigsass-bp-string</a></li><li class="sidebar__item sassdoc__item" data-name="_jigsass-mq-args-parser" data-type="function"><a href="#function-_jigsass-mq-args-parser">_jigsass-mq-args-parser</a></li><li class="sidebar__item sassdoc__item" data-name="_jigsass-generate-selector-map" data-type="function"><a href="#function-_jigsass-generate-selector-map">_jigsass-generate-selector-map</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="selectors - 04 define"><a href="#selectors - 04 define">selectors - 04 define</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 04 define-mixin"><a href="#selectors - 04 define-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-define-block" data-type="mixin"><a href="#mixin-jigsass-define-block">jigsass-define-block</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-define-object" data-type="mixin"><a href="#mixin-jigsass-define-object">jigsass-define-object</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-classname" data-type="mixin"><a href="#mixin-jigsass-classname">jigsass-classname</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-define-util" data-type="mixin"><a href="#mixin-jigsass-define-util">jigsass-define-util</a></li><li class="sidebar__item sassdoc__item" data-name="_jigsass-define-util" data-type="mixin"><a href="#mixin-_jigsass-define-util">_jigsass-define-util</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 04 define-function"><a href="#selectors - 04 define-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-get-obj-mq" data-type="function"><a href="#function-jigsass-get-obj-mq">jigsass-get-obj-mq</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="selectors - 05 require"><a href="#selectors - 05 require">selectors - 05 require</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="selectors - 05 require-mixin"><a href="#selectors - 05 require-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-block" data-type="mixin"><a href="#mixin-jigsass-block">jigsass-block</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-object" data-type="mixin"><a href="#mixin-jigsass-object">jigsass-object</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-util" data-type="mixin"><a href="#mixin-jigsass-util">jigsass-util</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><h1 class="header__title">Jigsass-tools-selectors - 0.0.0</h1><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><div class="container"><h1 id="jigsass-tools-selectors">JigSass Tools Selectors</h1><p><a href="https://npmjs.org/package/jigsass-tools-selectors"><img src="https://badge.fury.io/js/jigsass-tools-selectors.svg" alt="NPM version"></a> <a href="https://travis-ci.org/TxHawks/jigsass-tools-selectors"><img src="https://travis-ci.org/TxHawks/jigsass-tools-selectors.svg?branch=master" alt="Build Status"></a> <a href="https://david-dm.org/TxHawks/jigsass-tools-selectors"><img src="https://david-dm.org/TxHawks/jigsass-tools-selectors.svg?theme=shields.io" alt="Dependency Status"></a></p><blockquote><p>Create predictable, manageable and composable CSS with zero bloat and scalability in mind</p></blockquote><h2 id="installation">Installation</h2><p>Using npm:</p><pre><code class="lang-sh">npm i -S jigsass-tools-selectors
+</code></pre><h2 id="usage">Usage</h2><pre><code class="lang-scss">@import &#39;path/to/jigsass-tools-selectors&#39;;
+</code></pre><p>Managing CSS at scale is hard, even very hard. Code bases easily grow out of control, and dead code elimination is an onerous task.</p><p>JigSass Selectors is an attempt to provide tools for better tackling these tasks, and assisting with defining and generating clean and easy to main CSS based on responsive-enabled reusable object and utility classes.</p><p>In order to keep a CSS footprint to a minimum, not even a single line of the defined CSS is generated unless it is explicitly included for use.</p><p>Instead of using configuration maps or variables, which eventually become difficult to maintain and keep track of, JigSass offers a series of mixins used to enable CSS output where it is used, but without creating duplication or changing the cascade.</p><p><strong>Let&#39;s take a look at a simplified example:</strong></p><pre><code class="lang-scss">/* _object.media.scss */
+@jigsass-define-object(o-media) {
+  @include jigsass-classname {
+    display: flex;
+  }
+
+  @include jigsass-classname($modifer: middle) {
+    align-items: center;
+  }
+
+  @include jigsass-classname($modifer: reverse) {
+    flex-direction: row-reverse;
+  }
+}
+
+@jigsass-define-object(o-media__item) {
+  @include jigsass-classname($modifier: bottom) {
+    align-self: flex-end;
+  }
+} 
+
+
+/* _component.foo.scss */
+.c-foo {
+  @include jigsass-object(o-media, $from: large);
+  @include jigsass-object(o-media, $from: large, $modifier: middle);
+
+  background-color: #ccc;
+}
+
+  .c-foo__fig {
+    @include jigsass-util(u-ml, $from: large, $modifier: 1);
+    @include jigsass-util(u-mr, $from: large, $modifier: 1);
+
+    background-color: #333;
+  }
+
+  // `.foo__fig--bottom` will not actually be generated, as it has no
+  // styling of its own.
+  .c-foo__fig--bottom {
+    @include jigsass-util(u-ml, $from: large, $modifier: 1);
+    @include jigsass-object(o-media__item, $from: large, $modifier: bottom);
+  }
+
+
+/* _util.margin.scss */
+@include jigsass-define-util(u-mr) {
+  $modifier: $jigsass-util-modifier or 0;
+
+  margin-right: $jigsass-util-modifier * 12px;
+}
+
+@include jigsass-define-util(u-ml) {
+  $modifier: $jigsass-util-modifier or 0;
+
+  margin-left: $jigsass-util-modifier * 12px;
+}
+
+
+// style.scss
+@import &#39;object.media&#39;;   // o-media class will be generated here
+@import &#39;component.foo&#39;;
+@import &#39;util.margin&#39;;    // u-ml class will be generated here.
+</code></pre><p>Will generate:</p><pre><code class="lang-css">/* style.css */
+@media (min-width: 65em) {
+  .o-media--from-large {
+    display: flex;
+  }
+
+  .o-media--middle--from-large {
+    align-items: center;
+  }
+}
+
+@media (min-width: 65em) {
+  .o-media__item--bottom--from-large {
+    align-self: bottom;
+  }
+}
+
+.c-foo {
+  background-color: #ccc;
+}
+
+  .c-foo__fig {
+    background-color: #333;
+  }
+
+@media (min-width: 65em) {
+  .u-mr--1--from-large {
+     margin-right: 12px;
+  }
+}
+@media (min-width: 65em) {
+  .u-ml--1--from-large {
+     margin-left: 12px;
+  }
+}
+</code></pre><p>Notice how only the styles we actually used ended up in our CSS? How they were generated where they were defined, and only once?</p><p>When managing the generation of css object and utility classes through config files, it eventually becomes damn near impossible to keep track of where each class is used, and when it is safe to remove, often leaving us with codebases that are larger than they need to be.</p><p>In contrast, generating the styles by simply including them where they are being used is a lot easier to grasp and manage, while still keeping our CSS stringent and modular.</p><p>Now, with the above CSS and following html:</p><pre><code class="lang-html">&lt;article class=&quot;[ o-media--from-large  o-media--middle--from-large ]  c-foo&quot;&gt;
+  &lt;figure class=&quot;c-foo__fig  u-mr--1--from-large&quot;&gt;
+    &lt;!-- img1 here --&gt;  
+  &lt;/figure&gt;
+  &lt;div&gt;
+    &lt;!-- content here --&gt;
+  &lt;/div&gt;
+  &lt;figure class=&quot;o-media__item--bottom--from-large  c-foo__fig  u-ml--1--from-large&quot;&gt;
+    &lt;!-- img2 here --&gt;  
+  &lt;/figure&gt;
+&lt;/articel&gt;
+</code></pre><p>We can get something like this:</p><pre><code>┌─────────────╥╥─────────────────────────────╥╥─────────────┐
+│############ ║║CONTENT HEAD                 ║║             │
+│############ ║║                             ║║             │
+│############ ║║ minus saepe sequi velit a,  ║║ ############│
+│##  IMG1  ## ║║ sit veniam quia quibusdam   ║║ ############│
+│############ ║║ odio itaque non! Dolores    ║║ ############│
+│############ ║║ deserunt atque repudiandae  ║║ ##  IMG2  ##│
+│############ ║║ asperiores rerum velit      ║║ ############│
+│             ║║ magnam deleniti deleniti    ║║ ############│
+│             ║║ sed aspernatur commodi?     ║║ ############│
+└─────────────╨╨─────────────────────────────╨╨─────────────┘
+</code></pre><p><strong>License:</strong> MIT</p></div></section><section class="main__section"><h1 class="main__heading" id="selectors"><div class="container">selectors</div></h1><section class="main__sub-section" id="selectors-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="variable-_jigsass-selectors"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#variable-_jigsass-selectors">_jigsass-selectors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$_jigsass-selectors: () !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>A container to store the names of generated selectors.</p><p>Once populated, its structure will be as follows:</p><pre><code class="lang-scss">$_jigsass-selectors: (
+  name: (
+    breakpoint: (
+      modifier: false,    // true:    Was included;
+                          // silent:  Was in silent mod when first
+                          //          included, don&#39;t touch even if
+                          //          included again.
+                          // false:   Wasn&#39;t called yet. Set to `true`
+                          //          or `silent` if called.
+    )
+  )
+);
+</code></pre></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-class-was-included"><code>_jigsass-class-was-included</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-define-util"><code>jigsass-define-util</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-block"><code>jigsass-block</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-object"><code>jigsass-object</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-util"><code>jigsass-util</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="selectors - 01 namespace"><div class="container">selectors - 01 namespace</div></h1><section class="main__sub-section" id="selectors - 01 namespace-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="variable-jigsass-namespace"><h3 class="item__heading"><a class="item__name" href="#variable-jigsass-namespace">jigsass-namespace</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$jigsass-namespace: &#39;&#39; !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>A prefix to prepend all jigsass classes with</p><p>Do not directly override. To redefine, use the <code>jigsass-set-namespace</code> and <code>jigsass-set-local-namespace</code> mixins.</p></div><h3 class="item__sub-heading">Type</h3><p><code>{string}</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#function-jigsass-get-namespace"><code>jigsass-get-namespace</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-set-local-namespace"><code>jigsass-set-local-namespace</code></a></li></ul><h3 class="item__sub-heading">See</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-set-local-namespace"><code>jigsass-set-local-namespace</code></a></li></ul></section></section><section class="main__sub-section" id="selectors - 01 namespace-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="mixin-jigsass-set-local-namespace"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-set-local-namespace">jigsass-set-local-namespace</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-set-local-namespace($namespace) { 
+  // Cache current namespace
+  $_ns: $jigsass-namespace;
+  $jigsass-namespace: $namespace !global;
+
+  @content;
+
+  // Restore original namespace
+  $jigsass-namespace: $_ns !global;
+ }" data-collapsed="@mixin jigsass-set-local-namespace($namespace) { ... }"><code>@mixin jigsass-set-local-namespace($namespace) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Set a local namespace to prefix all classes generated withing the context of the mixin with.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$namespace</code></th><td data-label="desc"><p>The namespace to prepend.</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-namespace"><code>jigsass-namespace</code></a></li></ul></p></section></section><section class="main__sub-section" id="selectors - 01 namespace-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="function-jigsass-get-namespace"><h3 class="item__heading"><a class="item__name" href="#function-jigsass-get-namespace">jigsass-get-namespace</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function jigsass-get-namespace() { 
+  @return if($jigsass-namespace != &#39;&#39;, &#39;#{$jigsass-namespace}-&#39;, &#39;&#39;);
+ }" data-collapsed="@function jigsass-get-namespace() { ... }"><code>@function jigsass-get-namespace() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get the namespace correctly formatted</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>String</code></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-namespace"><code>jigsass-namespace</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-gen-class-name"><code>_jigsass-gen-class-name</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-_jigsass-define-util"><code>_jigsass-define-util</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="selectors - 02 silent"><div class="container">selectors - 02 silent</div></h1><section class="main__sub-section" id="selectors - 02 silent-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="variable-jigsass-silent"><h3 class="item__heading"><a class="item__name" href="#variable-jigsass-silent">jigsass-silent</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$jigsass-silent: false !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Determines id jigsass should output CSS.</p></div><h3 class="item__sub-heading">Type</h3><p><code>{boolean}</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-mute"><code>jigsass-mute</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-unmute"><code>jigsass-unmute</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-if-not-silent"><code>jigsass-if-not-silent</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-block"><code>jigsass-block</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-object"><code>jigsass-object</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-util"><code>jigsass-util</code></a></li></ul></section></section><section class="main__sub-section" id="selectors - 02 silent-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="mixin-jigsass-mute"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-mute">jigsass-mute</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-mute() { 
+  $jigsass-silent: true !global;
+ }" data-collapsed="@mixin jigsass-mute() { ... }"><code>@mixin jigsass-mute() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Disable CSS output.</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-silent"><code>jigsass-silent</code></a></li></ul></section><section class="main__item container item" id="mixin-jigsass-unmute"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-unmute">jigsass-unmute</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-unmute() { 
+  $jigsass-silent: false !global;
+ }" data-collapsed="@mixin jigsass-unmute() { ... }"><code>@mixin jigsass-unmute() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Enable CSS output.</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-silent"><code>jigsass-silent</code></a></li></ul></section><section class="main__item container item" id="mixin-jigsass-if-not-silent"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-if-not-silent">jigsass-if-not-silent</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-if-not-silent($namespace) { 
+  @if (not $jigsass-silent) {
+    @content;
+  }
+ }" data-collapsed="@mixin jigsass-if-not-silent($namespace) { ... }"><code>@mixin jigsass-if-not-silent($namespace) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Set a local namespace to prefix all classes generated withing the context of the mixin with.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$namespace</code></th><td data-label="desc"><p>The namespace to prepend.</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-silent"><code>jigsass-silent</code></a></li></ul></p></section></section></section><section class="main__section"><h1 class="main__heading" id="selectors - 03 helpers"><div class="container">selectors - 03 helpers</div></h1><section class="main__sub-section" id="selectors - 03 helpers-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="function-_jigsass-gen-class-name"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_jigsass-gen-class-name">_jigsass-gen-class-name</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _jigsass-gen-class-name($name, $from, $until, $misc, $modifier) { 
+  $_min-str: &#39;&#39;;
+  $_max-str: &#39;&#39;;
+  $_misc-str: &#39;&#39;;
+  $_mod-str: if($modifier and $modifier != &#39;&#39;, &#39;--#{$modifier}&#39;, &#39;&#39;);
+
+  @if ($from) {
+    $_from-length: jigsass-mq-get-breakpoint-width($from);
+
+    @if (type-of($_from-length) != number) {
+      @error &#39;_jigsass-gen-class-name: #{$from} is not defined in the lengths breakpoints map &#39; +
+        &#39;(from #{$name}).&#39;;
+    }
+
+    $from: if(type-of($_from-length) == number and $_from-length &gt; 0, $from, false);
+    $_min-str: if($from, &#39;--from-#{$from}&#39;, &#39;&#39;);
+  }
+
+  @if ($until) {
+    $_until-length: jigsass-mq-get-breakpoint-width($until);
+
+    @if (type-of($_until-length) != number) {
+      @error &#39;_jigsass-gen-class-name: #{$until} is not defined in the lengths breakpoints map &#39; +
+        &#39;(from #{$name}).&#39;;
+    }
+
+    $until: if(type-of($_until-length) == number and $_until-length &gt; 0, $until, false);
+    $_max-str: if($until, &#39;--until-#{$until}&#39;, &#39;&#39;);
+  }
+
+  @if ($misc) {
+    $_features: map-get($jigsass-breakpoints, features);
+    $_misc: if($_features, map-get($_features, $misc), false);
+
+    @if (not $_misc) {
+      @error &#39;_jigsass-gen-class-name: #{$misc} is not defined in the misc features &#39; +
+        &#39;breakpoints map (from #{$name}).&#39;;
+    }
+
+    $_misc-str: if($_misc, &#39;--when-#{$misc}&#39;, &#39;&#39;);
+  }
+
+  @return #{jigsass-get-namespace()}#{$name}#{$_mod-str}#{$_min-str}#{$_max-str}#{$_misc-str};
+ }" data-collapsed="@function _jigsass-gen-class-name($name, $from, $until, $misc, $modifier) { ... }"><code>@function _jigsass-gen-class-name($name, $from, $until, $misc, $modifier) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Parse arguments into a string for a class name</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the object or util.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$from</code></th><td data-label="desc"><p>The name of breakpoint used as the min-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$until</code></th><td data-label="desc"><p>The name of breakpoint used as the max-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$misc</code></th><td data-label="desc"><p>The name of a miscellaneous media query condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$modifier</code></th><td data-label="desc"><p>A modifier&#39;s name</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>String</code> &mdash;<p>A class name (sans the <code>.</code>)</p></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>_jigsass-gen-class-name: #{$from} is not defined in the lengths breakpoints map</p></li><li><p>_jigsass-gen-class-name: #{$until} is not defined in the lengths breakpoints map</p></li><li><p>_jigsass-gen-class-name: #{$misc} is not defined in the misc features</p></li></ul><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-jigsass-get-namespace"><code>jigsass-get-namespace</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-classname"><code>jigsass-classname</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-object"><code>jigsass-object</code></a></li></ul></section><section class="main__item container item" id="function-_jigsass-class-was-included"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_jigsass-class-was-included">_jigsass-class-was-included</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _jigsass-class-was-included($name, $from, $until, $misc, $modifier) { 
+  @if (not function-exists(jigsass-get)) {
+    @error &#39;`_jigsass-selector-was-defined()` has a dependency on &#39; +
+      &#39;`jigsass-tools-maps`. Please import it.&#39;;
+  }
+
+  @if (not global-variable-exists(_jigsass-selectors)) {
+    @return false;
+  }
+
+  $_bp-str: if(
+    not ($from or $until or $misc),
+    no-breakpoint,
+    _jigsass-bp-string($from, $until, $misc)
+  );
+
+  @return jigsass-get($_jigsass-selectors, $name, $_bp-str, $modifier or no-modifier);
+ }" data-collapsed="@function _jigsass-class-was-included($name, $from, $until, $misc, $modifier) { ... }"><code>@function _jigsass-class-was-included($name, $from, $until, $misc, $modifier) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Check if a class was already included</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the object or util.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$from</code></th><td data-label="desc"><p>The name of breakpoint used as the min-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$until</code></th><td data-label="desc"><p>The name of breakpoint used as the max-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$misc</code></th><td data-label="desc"><p>The name of a miscellaneous media query condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$modifier</code></th><td data-label="desc"><p>A modifier&#39;s name</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Boolean</code> &mdash;<p>Indicates if the class was generated or called in silent mode (true);</p></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p><code>_jigsass-selector-was-defined()</code> has a dependency on</p></li></ul><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-bp-string"><code>_jigsass-bp-string</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-_jigsass-selectors"><code>_jigsass-selectors</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-object"><code>jigsass-object</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-util"><code>jigsass-util</code></a></li></ul></section><section class="main__item container item" id="function-_jigsass-bp-string"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_jigsass-bp-string">_jigsass-bp-string</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _jigsass-bp-string($from, $until, $misc) { 
+  // No from or until for 0-width breakpoints
+  $from: if($from, if(jigsass-mq-get-breakpoint-width($from) == 0, false, $from), $from);
+  $until: if($until, if(jigsass-mq-get-breakpoint-width($until) == 0, false, $until), $until);
+
+  // Error out if any of the breakpoints is not a named breakpoint
+  @if ($from and not jigsass-mq-breakpoint-defined($from)) {
+    @error &#39;_jigsass-bp-string: #{$from} is not a named width breakpoint&#39;;
+  }
+  @if ($until and not jigsass-mq-breakpoint-defined($until)) {
+    @error &#39;_jigsass-bp-string: #{$until} is not a named width breakpoint&#39;;
+  }
+  @if ($misc and not jigsass-mq-breakpoint-defined($misc)) {
+    @error &#39;_jigsass-bp-string: #{$misc} is not a named misc feature breakpoint&#39;;
+  }
+
+  $_bp-str: if($from, &#39;from-#{$from}&#39;, &#39;&#39;);
+  $_bp-str: $_bp-str + if($until, if($_bp-str == &#39;&#39;, &#39;until-#{$until}&#39;, &#39;-until-#{$until}&#39;), &#39;&#39;);
+  $_bp-str: $_bp-str + if($misc, if($_bp-str == &#39;&#39;, &#39;when-#{$misc}&#39;, &#39;-when-#{$misc}&#39;), &#39;&#39;);
+
+  $_bp-str: if($_bp-str == &#39;&#39;, &#39;no-breakpoint&#39;, $_bp-str);
+
+  @return $_bp-str;
+ }" data-collapsed="@function _jigsass-bp-string($from, $until, $misc) { ... }"><code>@function _jigsass-bp-string($from, $until, $misc) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Return a string representing a media query.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$from</code></th><td data-label="desc"><p>The name of breakpoint used as the min-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$until</code></th><td data-label="desc"><p>The name of breakpoint used as the max-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$misc</code></th><td data-label="desc"><p>The name of a miscellaneous media query condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>String</code> &mdash;<p>string representation of a media-query&#39;s conditions</p></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>_jigsass-bp-string: #{$from} is not a named width breakpoint</p></li><li><p>_jigsass-bp-string: #{$until} is not a named width breakpoint</p></li><li><p>_jigsass-bp-string: #{$misc} is not a named misc feature breakpoint</p></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-class-was-included"><code>_jigsass-class-was-included</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-object"><code>jigsass-object</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-util"><code>jigsass-util</code></a></li></ul></section><section class="main__item container item" id="function-_jigsass-mq-args-parser"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_jigsass-mq-args-parser">_jigsass-mq-args-parser</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _jigsass-mq-args-parser() { 
+  $conditions: (from: false, until: false, misc: false);
+  $misc-index: str_index($bp-str, &#39;-when&#39;);
+  $misc-condition: if($misc-index, str_slice($bp-str, $misc-index + 6, -1), null);
+  @if ($misc-condition) {
+    $conditions: jigsass-set($conditions, misc, $misc-condition);
+    $bp-str: str_slice($bp-str, 0, $misc-index - 1);
+  }
+
+  $until-index: str_index($bp-str, &#39;-until&#39;);
+  $until-condition: if($until-index, str_slice($bp-str, $until-index + 7, -1), null);
+  @if ($until-condition) {
+    $conditions: jigsass-set($conditions, until, $until-condition);
+    $bp-str: str_slice($bp-str, 0, $until-index - 1);
+  }
+
+  $_cond-key: if(
+    str_index($bp-str, &#39;from&#39;),
+    from,
+    if(str-index($bp-str, &#39;until&#39;), until, if(str-index($bp-str, &#39;when&#39;), misc, false))
+  );
+  @if ($_cond-key) {
+    $_cond-value: str-slice($bp-str, str_index($bp-str, &#39;-&#39;) + 1);
+    $condition: ($_cond-key: $_cond-value);
+    $conditions: map-merge($conditions, $condition);
+  }
+
+  @return $conditions;
+ }" data-collapsed="@function _jigsass-mq-args-parser() { ... }"><code>@function _jigsass-mq-args-parser() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Parse a string representing media query conditions into a map with <code>from</code>, <code>until</code> and <code>misc</code> keys.</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-_jigsass-define-util"><code>_jigsass-define-util</code></a></li></ul></section><section class="main__item container item" id="function-_jigsass-generate-selector-map"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_jigsass-generate-selector-map">_jigsass-generate-selector-map</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _jigsass-generate-selector-map($name: $name, $bps: $jigsass-breakpoints) { 
+  $_lengths: jigsass-mq-sort-length-breakpoints(map-get($bps, lengths));
+  $_features: map-get($bps, features);
+
+  $selector-map: (
+    no-breakpoint: (
+      no-modifier: false,
+    ),
+  );
+
+  // Width breakpoints
+  @if($_lengths) {
+    // Min width breakpoints
+    @each $bp-min, $length-min in $_lengths {
+      @if (jigsass-strip-unit($length-min) != 0) {
+        $selector-map: map-merge($selector-map, (from-#{$bp-min}: (no-modifier: false)));
+      }
+    }
+
+    // Max width breakpoints
+    @each $bp-max, $length-max in $_lengths {
+      @if (jigsass-strip-unit($length-max) != 0) {
+        $selector-map: map-merge($selector-map, (until-#{$bp-max}: (no-modifier: false)));
+      }
+    }
+
+    // Min and max width breakpoints
+    @each $bp-min, $length-min in $_lengths {
+      @each $bp-max, $length-max in $_lengths {
+        @if (
+          jigsass-strip-unit($length-min) != 0 and
+          jigsass-strip-unit($length-max) != 0 and
+          $length-max &gt; $length-min
+        ) {
+          $selector-map: map-merge(
+            $selector-map,
+            (from-#{$bp-min}-until-#{$bp-max}: (no-modifier: false))
+          );
+        }
+      }
+    }
+  }
+
+  // Misc media query features breakpoints
+  @if ($_features) {
+    @each $misc-bp, $expression in $_features {
+      $selector-map: map-merge($selector-map, (when-#{$misc-bp}: (no-modifier: false)));
+    }
+
+    // Width and misc media queries
+    @if($_lengths) {
+      // Min width and feature breakpoints
+      @each $bp-min, $length-min in $_lengths {
+        @if (jigsass-strip-unit($length-min) != 0) {
+          @each $misc-bp, $expression in $_features {
+            $selector-map: map-merge(
+              $selector-map,
+              (from-#{$bp-min}-when-#{$misc-bp}: (no-modifier: false))
+            );
+          }
+        }
+      }
+
+      // Max width and feature breakpoints
+      @each $bp-max, $length-max in $_lengths {
+        @if (jigsass-strip-unit($length-max) != 0) {
+          @each $misc-bp, $expression in $_features {
+            $selector-map: map-merge(
+              $selector-map,
+              (until-#{$bp-max}-when-#{$misc-bp}: (no-modifier: false))
+            );
+          }
+        }
+      }
+
+      // Min and max width and feature breakpoints
+      @each $bp-min, $length-min in $_lengths {
+        @each $bp-max, $length-max in $_lengths {
+          @if (
+            jigsass-strip-unit($length-min) != 0 and
+            jigsass-strip-unit($length-max) != 0 and
+            $length-max &gt; $length-min
+          ) {
+            @each $misc-bp, $expression in $_features {
+              $selector-map: map-merge(
+                $selector-map,
+                (from-#{$bp-min}-until-#{$bp-max}-when-#{$misc-bp}: (no-modifier: false))
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @return ($name: $selector-map);
+ }" data-collapsed="@function _jigsass-generate-selector-map($name: $name, $bps: $jigsass-breakpoints) { ... }"><code>@function _jigsass-generate-selector-map($name: $name, $bps: $jigsass-breakpoints) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Generate a map used for generating a jigsass object or utility class in a correct and predictable order, allowing usage of the cascade to override default classes with modifier ones and non-responsive classes media responsive ones.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the object of helper to generate the map for. When in the context of generating a utility or object class, defaults to the name of that class.</p></td><td data-label="type"><code>String</code></td><td data-label="default"><code>$name</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$bps</code></th><td data-label="desc">&mdash;<span class="visually-hidden">none</span></td><td data-label="type"><code>Map</code></td><td data-label="default"><code>$jigsass-breakpoints</code></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Map</code></div><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>$jigsass-selectors: map-merge(
+  $jigsass-selectors,
+  _jigsass-generate-selector-map(class-name)
+);</code></pre></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-util"><code>jigsass-util</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="selectors - 04 define"><div class="container">selectors - 04 define</div></h1><section class="main__sub-section" id="selectors - 04 define-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="mixin-jigsass-define-block"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-define-block">jigsass-define-block</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-define-block($name) { 
+  %__jigsass-block-#{$name} {
+    @content;
+  }
+ }" data-collapsed="@mixin jigsass-define-block($name) { ... }"><code>@mixin jigsass-define-block($name) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Define a custom css block that can be later enabled and generated <em>once</em> where it was defined.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the CSS block being defined, e.g. <code>normalize-forms</code></p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>@include jigsass-define-block(normalize-forms) {
+  form { margin: 0; }
+
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+  }
+}
+// ...</code></pre></div></p></section><section class="main__item container item" id="mixin-jigsass-define-object"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-define-object">jigsass-define-object</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-define-object($name) { 
+  // Reset in global scope
+  $_jigsass-obj-current-mq-args: (from: false, until: false, misc: false) !global;
+  $_jigsass-obj-current-name: $name !global;
+
+  $_lengths: jigsass-mq-sort-length-breakpoints();
+  $_features: map-get($jigsass-breakpoints, features);
+
+  // Width breakpoints
+  @if($_lengths) {
+    // Min width breakpoints
+    @each $bp-min, $length-min in $_lengths {
+      @include jigsass-mq($from: $bp-min) {
+        @if ($length-min != 0) {
+          $_jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: false) !global;
+        }
+
+        @content;
+      }
+    }
+
+    // Max width breakpoints
+    @each $bp-max, $length-max in $_lengths {
+      @if (jigsass-strip-unit($length-max) != 0) {
+        @include jigsass-mq($until: $bp-max) {
+          $_jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: false) !global;
+
+          @content;
+        }
+      }
+    }
+
+    // Min and max width breakpoints
+    @each $bp-min, $length-min in $_lengths {
+      @each $bp-max, $length-max in $_lengths {
+        @if (
+          jigsass-strip-unit($length-min) != 0 and
+          jigsass-strip-unit($length-max) != 0 and
+          $length-max &gt; $length-min
+        ) {
+          @include jigsass-mq($from: $bp-min, $until: $bp-max) {
+            $_jigsass-obj-current-mq-args: (from: $bp-min, until: $bp-max, misc: false) !global;
+
+            @content;
+          }
+        }
+      }
+    }
+  }
+
+  // Misc media query features breakpoints
+  @if ($_features) {
+    @each $misc-bp, $expression in $_features {
+      @include jigsass-mq($misc: $misc-bp) {
+        $_jigsass-obj-current-mq-args: (from: false, until: false, misc: $misc-bp) !global;
+
+        @content;
+      }
+    }
+
+    // Width and misc media queries
+    @if($_lengths) {
+      // Min width and feature breakpoints
+      @each $bp-min, $length-min in $_lengths {
+        @if (jigsass-strip-unit($length-min) != 0) {
+          @each $misc-bp, $expression in $_features {
+            @include jigsass-mq($from: $bp-min, $misc: $misc-bp) {
+              $_jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: $misc-bp) !global;
+
+              @content;
+            }
+          }
+        }
+      }
+
+      // Max width and feature breakpoints
+      @each $bp-max, $length-max in $_lengths {
+        @if (jigsass-strip-unit($length-max) != 0) {
+          @each $misc-bp, $expression in $_features {
+            @include jigsass-mq($until: $bp-max, $misc: $misc-bp) {
+              $_jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: $misc-bp) !global;
+
+              @content;
+            }
+          }
+        }
+      }
+
+      // Min and max width and feature breakpoints
+      @each $bp-min, $length-min in $_lengths {
+        @each $bp-max, $length-max in $_lengths {
+          @if (
+            jigsass-strip-unit($length-min) != 0 and
+            jigsass-strip-unit($length-max) != 0 and
+            $length-max &gt; $length-min
+          ) {
+            @each $misc-bp, $expression in $_features {
+              @include jigsass-mq($from: $bp-min, $until: $bp-max, $misc: $misc-bp) {
+                $_jigsass-obj-current-mq-args: (
+                  from: $bp-min,
+                  until: $bp-max,
+                  misc: $misc-bp
+                ) !global;
+
+                @content;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Reset in global scope
+  $_jigsass-obj-current-mq-args: null !global;
+  $_jigsass-obj-current-name: null !global;
+ }" data-collapsed="@mixin jigsass-define-object($name) { ... }"><code>@mixin jigsass-define-object($name) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Define a reusable object class.</p><p>Use the <code>jigsass-classname</code> mixin inside this mixin&#39;s body to define the base object and each of it&#39;s modifiers <strong>(See example below)</strong>.</p><p>When calling the <code>jigsass-get-obj-mq</code> function without arguments inside the <code>@contnet</code> block, it will return a map with <code>from</code>, <code>until</code> and <code>misc</code> keys, holding the arguments passed to the media query in the current context of <code>@content</code>.</p><p>When called with an argument of <code>from</code>, <code>until</code> or <code>misc</code>, the <code>jigsass-get-obj-mq</code> will return the value of of that key from the above map.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the object class being defined, sans modifiers. A modifier&#39;s name</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>@include jigsass-define-object(box) {
+  // Defines rules from `.box`
+  @include jigsass-classname() {
+    padding: if(jigsass-get-obj-mq(misc) == landscape, 24px 48px, 24px));
+  }
+
+  // Defines rules for `.box--cramped`
+  @include jigsass-classname() {
+  @include jigsass-classname(box, $modifier: cramped) {
+    padding: 12px;
+  }
+}</code></pre></div></p></section><section class="main__item container item" id="mixin-jigsass-classname"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-classname">jigsass-classname</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-classname($name: $_jigsass-obj-current-name, $modifier: false) { 
+  @if (not $name) {
+    @error &#39;jigsass-classname: A `$name` is required for generating a selector.&#39;
+  }
+  $from: jigsass-get-obj-mq(from);
+  $until: jigsass-get-obj-mq(until);
+  $misc: jigsass-get-obj-mq(misc);
+  $selector-str: _jigsass-gen-class-name($name, $from, $until, $misc, $modifier);
+
+  // Make sure $modifier is not called `no-modifier`.
+  @if ($modifier) {
+    @if ($modifier == &#39;no-modifier&#39;) {
+      @error &#39;jigsass-classname: A jigsass class modifier cannot be called `no-modifier` &#39; +
+        &#39;(from #{$name}).&#39;;
+    }
+  }
+
+  %#{$selector-str} {
+    @content;
+  }
+ }" data-collapsed="@mixin jigsass-classname($name: $_jigsass-obj-current-name, $modifier: false) { ... }"><code>@mixin jigsass-classname($name: $_jigsass-obj-current-name, $modifier: false) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Generate an object or object-modifier class name inside <code>jigsass-define-object</code></p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The object&#39;s base name. defaults to the name that was passed in the calling <code>jigsass-define-object</code> mixin</p></td><td data-label="type"><code>String</code></td><td data-label="default"><code>$_jigsass-obj-current-name</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$modifier</code></th><td data-label="desc"><p>A modifier&#39;s name</p></td><td data-label="type"><code>String</code> or <code>Number</code> or <code>False</code></td><td data-label="default"><code>false</code></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>jigsass-classname: A <code>$name</code> is required for generating a selector.</p></li><li><p>jigsass-classname: A jigsass class modifier cannot be called <code>no-modifier</code></p></li></ul><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-jigsass-get-obj-mq"><code>jigsass-get-obj-mq</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-gen-class-name"><code>_jigsass-gen-class-name</code></a></li></ul><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>@include jigsass-define-object(box) {
+  // Defines rules from `.box`
+  @include jigsass-classname() {
+    padding: if(jigsass-get-obj-mq(misc) == landscape, 24px 48px, 24px));
+  }
+
+  // Defines rules for `.box--cramped`
+  @include jigsass-classname() {
+  @include jigsass-classname(box, $modifier: cramped) {
+    padding: 12px;
+  }
+}</code></pre></div><h3 class="item__sub-heading">See</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-define-object"><code>jigsass-define-object</code></a></li></ul></p></section><section class="main__item container item" id="mixin-jigsass-define-util"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-define-util">jigsass-define-util</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-define-util($name) { 
+  // Don&#39;t do anything if the utility wasn&#39;t included
+  // with `@include jigsass-util($name)` at some point
+  // in the past.
+  @if (map-has-key($_jigsass-selectors, $name)) {
+    // Reset util modifier in global scope
+    $jigsass-util-modifier: null !global;
+
+
+    @each $bp, $modifiers in map-get($_jigsass-selectors, $name) {
+      @each $modifier, $was-included in $modifiers {
+        @if ($was-included and $was-included != &#39;silent&#39;) {
+          // Save $modifier to global scope, so that it is available to `@content`.
+          $jigsass-util-modifier: if($modifier == no-modifier, null, $modifier) !global;
+
+          @include _jigsass-define-util($name, $bp) {
+            @content;
+          }
+
+          // Reset util modifier in global scope
+          $jigsass-util-modifier: null !global;
+        }
+      }
+    }
+  }
+ }" data-collapsed="@mixin jigsass-define-util($name) { ... }"><code>@mixin jigsass-define-util($name) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Define a utility class</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the utility class being defined, sans modifiers.</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-util"><code>jigsass-util</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[mixin]</span> <a href="#mixin-_jigsass-define-util"><code>_jigsass-define-util</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-_jigsass-selectors"><code>_jigsass-selectors</code></a></li></ul></p></section><section class="main__item container item" id="mixin-_jigsass-define-util"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#mixin-_jigsass-define-util">_jigsass-define-util</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin _jigsass-define-util($name, $bp-str) { 
+  $_modifier: if(
+    $jigsass-util-modifier,
+    &#39;--#{$jigsass-util-modifier}&#39;,
+    &#39;&#39;
+  );
+
+  $_mq-args: _jigsass-mq-args-parser($bp-str);
+
+  $_selector: &#39;.#{jigsass-get-namespace()}#{$name}#{$_modifier}&#39;;
+
+  $_selector: if(
+    $bp-str == no-breakpoint,
+    $_selector,
+    #{$_selector}--#{$bp-str}
+  );
+
+  @include jigsass-mq(
+    $from: map-get($_mq-args, from),
+    $until: map-get($_mq-args, until),
+    $misc: map-get($_mq-args, misc)
+  ) {
+    #{$_selector} {
+      @content;
+    }
+  }
+ }" data-collapsed="@mixin _jigsass-define-util($name, $bp-str) { ... }"><code>@mixin _jigsass-define-util($name, $bp-str) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Private util used to abstract away selector generation</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the utility class being defined, sans modifiers.</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$bp-str</code></th><td data-label="desc"><p>A string representing media query conditions in the following format: <code>from-#{$width-bp}-until-#{$width-bp}-when-#{$misc-bp}</code> and where each part is optional</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Content</h3><p>This mixin allows extra content to be passed (through the <code>@content</code> directive).<h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-mq-args-parser"><code>_jigsass-mq-args-parser</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-jigsass-get-namespace"><code>jigsass-get-namespace</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-define-util"><code>jigsass-define-util</code></a></li></ul></p></section></section><section class="main__sub-section" id="selectors - 04 define-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="function-jigsass-get-obj-mq"><h3 class="item__heading"><a class="item__name" href="#function-jigsass-get-obj-mq">jigsass-get-obj-mq</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function jigsass-get-obj-mq($type: false) { 
+  @if($_jigsass-obj-current-mq-args) {
+    @return if(
+      $type,
+      map-get($_jigsass-obj-current-mq-args, $type),
+      $_jigsass-obj-current-mq-args
+    );
+  }
+
+  @return null;
+ }" data-collapsed="@function jigsass-get-obj-mq($type: false) { ... }"><code>@function jigsass-get-obj-mq($type: false) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get media query arguments of current context. For use inside <code>jigsass-define-object</code>.</p><p>When called inside the <code>@contnet</code> block without arguments, it will return a map with <code>from</code>, <code>until</code> and <code>misc</code> keys, holding the arguments passed to the media query in the current context of <code>@content</code>.</p><p>When called with an argument of <code>from</code>, <code>until</code> or <code>misc</code>, it will return the value of of that key from the above map.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$type</code></th><td data-label="desc"><p>The type of media-query argument to check. May be <code>from</code>, <code>until</code> or <code>misc</code>. If false, Will return a map of all of the above.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default"><code>false</code></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>String</code> or <code>Map</code> &mdash;<p>The value attached to the queried <code>$type</code>, or a map of all three types.</p></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-classname"><code>jigsass-classname</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="selectors - 05 require"><div class="container">selectors - 05 require</div></h1><section class="main__sub-section" id="selectors - 05 require-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="mixin-jigsass-block"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-block">jigsass-block</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-block($name, $scope: false) { 
+  // Check if selector was already generated
+  $_was-included: if(
+    not global-variable-exists(_jigsass-selectors),
+    false,
+    jigsass-get($_jigsass-selectors, $name, $scope or universal) or false
+  );
+
+  // Generate block
+  // Will only generate a block once, where it was defined,
+  // regardless of how many times `jigsass-block` was called
+  // with the same argument.
+  @if (not $_was-included) {
+    // Check that we are not in silent mode
+    @if (not $jigsass-silent) {
+      // Create the selectors and styles defined in the `$name`
+      // stylelint-disable
+      #{$scope or &#39;*&#39;} { // stylelint-enable
+        @extend %__jigsass-block-#{$name};
+      }
+    }
+
+    // Set class as defined in the `$_jigsass-selectors` map.
+    $_selector-map: (
+      $name: (
+        $scope or universal: if($jigsass-silent, silent, true)
+      )
+    );
+
+    @if (not global-variable-exists(_jigsass-selectors)) { $_jigsass-selectors: () !global; }
+    $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
+  }
+ }" data-collapsed="@mixin jigsass-block($name, $scope: false) { ... }"><code>@mixin jigsass-block($name, $scope: false) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Generate CSS of a defined block</p><p>Regardless of how many times the mixin is called with a certain set of argument, the rules defined in the block will only be generated once.</p><p><strong>The generated styles will be created where they was defined</strong>, not where it was included.</p><p>If <code>$jigsass-silent</code> is set to <code>true</code> when a block is first included with a certain set of argument, no CSS will be generated for that argument set.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the block to generate, as previously defined by calling jigsass-define-block</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$scope</code></th><td data-label="desc"><p>A selector to use for scoping the defined styles, Must be quoted</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default"><code>false</code></td></tr></tbody></table><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-_jigsass-selectors"><code>_jigsass-selectors</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-silent"><code>jigsass-silent</code></a></li></ul></section><section class="main__item container item" id="mixin-jigsass-object"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-object">jigsass-object</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-object($name, $from, $until, $misc, $modifier) { 
+  // Check if selector was already generated
+  $_was-included: _jigsass-class-was-included($name, $from, $until, $misc, $modifier);
+
+  // Generate selector.
+  // Will only generate CSS once, where it was defined,
+  // regardless of how many times `jigsass-object` was called
+  // with the same arguments.
+  @if (not $_was-included) {
+    // Check that we are not in silent mode
+    @if (not $jigsass-silent) {
+      @include jigsass-mq($from, $until, $misc) {
+        $selector-str: _jigsass-gen-class-name($name, $from, $until, $misc, $modifier);
+
+        .#{$selector-str} {
+          @extend %#{$selector-str};
+        }
+      }
+    }
+
+    $_bp-str: _jigsass-bp-string($from, $until, $misc);
+
+    // Set class as defined in the `$_jigsass-selectors` map.
+    $_selector-map: (
+      $name: (
+        $_bp-str: (
+          $modifier or no-modifier: if($jigsass-silent, silent, true)
+        )
+      )
+    );
+
+    @if (not global-variable-exists(_jigsass-selectors)) { $_jigsass-selectors: () !global; }
+    $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
+  }
+ }" data-collapsed="@mixin jigsass-object($name, $from, $until, $misc, $modifier) { ... }"><code>@mixin jigsass-object($name, $from, $until, $misc, $modifier) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Generate CSS of an object class</p><p>No matter how many times the mixin is called with a certain set of argument, only a single selector will be created in the generated CSS.</p><p><strong>The generated class will be created where it was defined</strong>, not where it was called.</p><p>If <code>$jigsass-silent</code> is set to <code>true</code> when the mixin is first called with a certain set of argument, no class will be generated for that argument set.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the object to generate, as previously defined by calling jigsass-define-object</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$from</code></th><td data-label="desc"><p>The name of breakpoint used as the min-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$until</code></th><td data-label="desc"><p>The name of breakpoint used as the max-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$misc</code></th><td data-label="desc"><p>The name of a miscellaneous media query condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$modifier</code></th><td data-label="desc"><p>A modifier&#39;s name as previously defined by calling jigsass-define-object</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-class-was-included"><code>_jigsass-class-was-included</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-gen-class-name"><code>_jigsass-gen-class-name</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-bp-string"><code>_jigsass-bp-string</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-silent"><code>jigsass-silent</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-_jigsass-selectors"><code>_jigsass-selectors</code></a></li></ul></section><section class="main__item container item" id="mixin-jigsass-util"><h3 class="item__heading"><a class="item__name" href="#mixin-jigsass-util">jigsass-util</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin jigsass-util($name, $from, $until, $misc, $modifier) { 
+  @if (not map-has-key($_jigsass-selectors, $name)) {
+    $_jigsass-selectors: map-merge(
+      $_jigsass-selectors,
+      _jigsass-generate-selector-map($name)
+    );
+  }
+
+  // Check if util was already included
+  $_was-included: _jigsass-class-was-included($name, $from, $until, $misc, $modifier);
+
+  // Generate selector.
+  // Will only generate CSS once, where it was defined,
+  // regardless of how many times `jigsass-util` was called
+  // with the same arguments.
+  @if (not $_was-included) {
+    // Make sure $modifier is not called `no-modifier`.
+    @if ($modifier) {
+      @if ($modifier == &#39;no-modifier&#39;) {
+        @error &#39;jigsass-util: A jigsass util class modifier cannot be called `no-modifier`. &#39; +
+          &#39;(from #{$name}).&#39;;
+      }
+    }
+
+    $_bp-str: _jigsass-bp-string($from, $until, $misc);
+
+    // Set class as defined in the `$_jigsass-selectors` map.
+    $_selector-map: (
+      $name: (
+        $_bp-str: (
+          $modifier or no-modifier: if($jigsass-silent, silent, true)
+        )
+      )
+    );
+
+    $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
+  }
+ }" data-collapsed="@mixin jigsass-util($name, $from, $until, $misc, $modifier) { ... }"><code>@mixin jigsass-util($name, $from, $until, $misc, $modifier) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Generate CSS of a utility class</p><p><code>jigsass-util</code> must be <code>@include</code>d <strong>before</strong> the util class it calls is defined.</p><p>No matter how many times the mixin is called with a certain set of argument, only a single selector will be created in the generated CSS.</p><p><strong>The generated class will be created where it was defined</strong>, not where it was called.</p><p>If <code>$jigsass-silent</code> is set to <code>true</code> when the <code>jigsass-util</code> is first called with a certain set of argument, no class will be generated for that argument set.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>The name of the object to generate, as previously defined by calling jigsass-define-object</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$from</code></th><td data-label="desc"><p>The name of breakpoint used as the min-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$until</code></th><td data-label="desc"><p>The name of breakpoint used as the max-width condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$misc</code></th><td data-label="desc"><p>The name of a miscellaneous media query condition.</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$modifier</code></th><td data-label="desc"><p>A modifier&#39;s name</p></td><td data-label="type"><code>String</code> or <code>Boolean</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>jigsass-util: A jigsass util class modifier cannot be called <code>no-modifier</code>.</p></li></ul><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-generate-selector-map"><code>_jigsass-generate-selector-map</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-class-was-included"><code>_jigsass-class-was-included</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#function-_jigsass-bp-string"><code>_jigsass-bp-string</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-_jigsass-selectors"><code>_jigsass-selectors</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#variable-jigsass-silent"><code>jigsass-silent</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#mixin-jigsass-define-util"><code>jigsass-define-util</code></a></li></ul></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --><span class="project-info__name">Jigsass-tools-selectors</span><!-- Version --> <span class="project-info__version">- v0.0.0</span><!-- License --> <span class="project-info__license">, under MIT</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>

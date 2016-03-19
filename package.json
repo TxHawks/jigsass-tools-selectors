@@ -1,0 +1,71 @@
+{
+  "name": "jigsass-tools-selectors",
+  "author": {
+    "name": "TxHawks",
+    "email": "tofu.hawks@gmail.com"
+  },
+  "version": "0.0.0",
+  "main": "index.scss",
+  "files": [
+    "scss"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "TxHawks/jigsass-tools-selectors"
+  },
+  "bugs": {
+    "bugs": "TxHawks/jigsass-tools-selectors/issues"
+  },
+  "keywords": [
+    "jigsass",
+    "sass",
+    "scss",
+    "css",
+    "oocss",
+    "atomic css",
+    "eyeglass-module"
+  ],
+  "eyeglass": {
+    "exports": false,
+    "needs": "^0.8.2",
+    "sassDir": "scss"
+  },
+  "scripts": {
+    "test": "gulp sass:test",
+    "prepublish": "gulp prepublish"
+  },
+  "dependencies": {
+    "jigsass-tools-maps": "^1.0.5",
+    "jigsass-tools-mq": "^1.4.0",
+    "jigsass-tools-typography": "^1.1.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.3",
+    "babel-core": "^6.5.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-register": "^6.6.0",
+    "browser-sync": "^2.11.1",
+    "chai": "^3.5.0",
+    "del": "^2.2.0",
+    "eyeglass": "^0.8.2",
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.1.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-util": "^3.0.7",
+    "mdcss": "^1.5.1",
+    "mdcss-theme-jigsass": "^0.1.5",
+    "postcss-reporter": "^1.3.3",
+    "postcss-scss": "^0.1.5",
+    "run-sequence": "^1.1.5",
+    "sassaby": "^2.1.1",
+    "sassdoc": "^2.1.20",
+    "sassdoc-theme-jigsass": "^0.2.12",
+    "stylelint": "^5.1.0"
+  },
+  "description": "Mixins to generate maintainable and scalable css selectors with zero bloat",
+  "license": "MIT"
+}

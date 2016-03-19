@@ -1,0 +1,69 @@
+// *************************************
+//
+// # JigSass Selector Namespace
+// -> Settings an utils for namespacing
+//    JigSass classes.
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+////
+/// @group Selectors - 01 Namespace
+////
+//
+// *************************************
+
+// -------------------------------------
+// Functions
+// -------------------------------------
+
+/// Get the namespace correctly formatted
+/// ---
+/// @return {String}
+/// ---
+@function jigsass-get-namespace() {
+  @return if($jigsass-namespace != '', '#{$jigsass-namespace}-', '');
+}
+
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+/// A prefix to prepend all jigsass classes with
+///
+/// Do not directly override. To redefine, use the
+/// `jigsass-set-namespace` and `jigsass-set-local-namespace`
+/// mixins.
+/// ---
+/// @type {String}
+/// ---
+/// @see {mixin} jigsass-set-local-namespace
+/// ---
+$jigsass-namespace: '' !default;
+
+
+
+
+
+// -------------------------------------
+// Mixins
+// -------------------------------------
+
+/// Set a local namespace to prefix all classes generated
+/// withing the context of the mixin with.
+/// ---
+/// @param {String} $namespace - The namespace to prepend.
+/// ---
+@mixin jigsass-set-local-namespace($namespace) {
+  // Cache current namespace
+  $_ns: $jigsass-namespace;
+  $jigsass-namespace: $namespace !global;
+
+  @content;
+
+  // Restore original namespace
+  $jigsass-namespace: $_ns !global;
+}

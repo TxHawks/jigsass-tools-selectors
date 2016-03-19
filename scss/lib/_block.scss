@@ -1,0 +1,135 @@
+// ***************************************
+//
+// # Block
+// -> Define and call custom CSS
+//    blocks without bloat.
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+// ***************************************
+
+@charset 'UTF-8';
+
+// -------------------------------------
+// Dependencies
+// -------------------------------------
+
+@if (not function-exists(jigsass-strip-unit)) {
+  @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-typography`. ' +
+    'Please import it before this file.';
+}
+
+
+
+
+
+// -------------------------------------
+// Functions
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Mixins
+// -------------------------------------
+
+/// Define a custom css block that can be later enabled
+/// and generated _once_ where it was defined.
+/// ---
+/// @param {String} $name
+///   The name of the CSS block being defined, e.g. `normalize-forms`
+/// ---
+/// @example
+///   @include jigsass-define-block(normalize-forms) {
+///     form { margin: 0; }
+///
+///     button,
+///     input,
+///     optgroup,
+///     select,
+///     textarea {
+///       color: inherit;
+///       font: inherit;
+///       margin: 0;
+///     }
+///   }
+///   // ...
+/// ---
+/// @group Selectors - 04 Define
+/// ---
+@mixin jigsass-define-block($name) {
+  %__jigsass-block-#{$name} {
+    @content;
+  }
+}
+
+
+/// Generate CSS of a defined block
+///
+/// Regardless of how many times the mixin is called with a
+/// certain set of argument, the rules defined in the block
+/// will only be generated once.
+///
+/// **The generated styles will be created where they was defined**,
+/// not where it was included.
+///
+/// If `$jigsass-silent` is set to `true` when a block is first
+/// included with a certain set of argument, no CSS will be generated
+/// for that argument set.
+/// ---
+/// @param {String} $name
+///   The name of the block to generate, as previously
+///   defined by calling jigsass-define-block
+/// @param {String | Boolean} $scope [false]
+///   A selector to use for scoping the defined styles,
+///   Must be quoted
+/// ---
+/// @group Selectors - 05 Require
+/// ---
+@mixin jigsass-block($name, $scope: false) {
+  // Check if selector was already generated
+  $_was-included: if(
+    not global-variable-exists(_jigsass-selectors),
+    false,
+    jigsass-get($_jigsass-selectors, $name, $scope or universal) or false
+  );
+
+  // Generate block
+  // Will only generate a block once, where it was defined,
+  // regardless of how many times `jigsass-block` was called
+  // with the same argument.
+  @if (not $_was-included) {
+    // Check that we are not in silent mode
+    @if (not $jigsass-silent) {
+      // Create the selectors and styles defined in the `$name`
+      // stylelint-disable
+      #{$scope or '*'} { // stylelint-enable
+        @extend %__jigsass-block-#{$name};
+      }
+    }
+
+    // Set class as defined in the `$_jigsass-selectors` map.
+    $_selector-map: (
+      $name: (
+        $scope or universal: if($jigsass-silent, silent, true)
+      )
+    );
+
+    @if (not global-variable-exists(_jigsass-selectors)) { $_jigsass-selectors: () !global; }
+    $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
+  }
+}
