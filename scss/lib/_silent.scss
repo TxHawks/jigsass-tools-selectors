@@ -26,7 +26,7 @@
 // Variables
 // -------------------------------------
 
-/// Determines id jigsass should output CSS.
+/// Determines if JigSass should output CSS.
 /// ---
 /// @type {Boolean}
 /// ---
@@ -52,10 +52,7 @@ $jigsass-silent: false !default;
   $jigsass-silent: false !global;
 }
 
-/// Set a local namespace to prefix all classes generated
-/// withing the context of the mixin with.
-/// ---
-/// @param {String} $namespace - The namespace to prepend.
+/// Process `@content` if not in silent mode
 /// ---
 @mixin jigsass-if-not-silent() {
   @if (not $jigsass-silent) {
