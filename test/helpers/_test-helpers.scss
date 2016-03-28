@@ -60,7 +60,7 @@
       }
     }
     @else {
-      @error '_jig-map-get-deep: `#{$map}` is a `#{type-of($map)}`, not a map.';
+      @error '_jig-map-get-deep: #{$map} is a type-of($map), not a map.';
     }
   }
 

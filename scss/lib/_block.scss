@@ -11,19 +11,6 @@
 @charset 'UTF-8';
 
 // -------------------------------------
-// Dependencies
-// -------------------------------------
-
-@if (not function-exists(jigsass-strip-unit)) {
-  @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-typography`. ' +
-    'Please import it before this file.';
-}
-
-
-
-
-
-// -------------------------------------
 // Functions
 // -------------------------------------
 
