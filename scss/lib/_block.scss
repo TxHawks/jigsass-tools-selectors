@@ -101,7 +101,7 @@
   // with the same argument.
   @if (not $_was-included) {
     // Check that we are not in silent mode
-    @if (not $jigsass-silent) {
+    @if (not global-variable-exists(jigsass-silent) or not $jigsass-silent) {
       // Create the selectors and styles defined in the `$name`
       // stylelint-disable
       #{$scope or '*'} { // stylelint-enable
@@ -112,7 +112,11 @@
     // Set class as defined in the `$_jigsass-selectors` map.
     $_selector-map: (
       $name: (
-        $scope or universal: if($jigsass-silent, silent, true)
+        $scope or universal: if(
+          global-variable-exists(jigsass-silent) and $jigsass-silent,
+          silent,
+          true
+        )
       )
     );
 
