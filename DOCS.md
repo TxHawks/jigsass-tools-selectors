@@ -1,7 +1,11 @@
 # JigSass Tools Selectors
-[![NPM version][npm-image]][npm-url]  [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]   
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
 
  > Create predictable, manageable and composable CSS with zero bloat and scalability in mind 
+
+Report an issue in [**Github**](https://www.github.com/txhawks/jigsass-tools-selectors/issues)
 
 ## Installation
 
@@ -20,9 +24,23 @@ npm i -S jigsass-tools-selectors
 Managing CSS at scale is hard, even very hard. Code bases easily grow out of control,
 and dead code elimination is an onerous task.
 
+JigSass borrows much of its architecture from [inuit](https://github.com/inuitcss) and ideas
+on CSS structure expressed elsewhere by Harry Roberts, and as such is, at its core, based on
+two main pillars:
+  - **Objects:** Abstract design pattern, such as the 
+    [media object](http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/) meant for reuse in many unrelated contexts. Can be extended, with modifer classes, but directly
+    mutating an object will have rippling effects. Should consist of minimal styling, to later
+    be expanded with modifier, utiliies and within components themselves.
+  - **Components:** An implementation-specific piece of UI. Should not be reused outside the context
+    of the specific component. Will often consist mostly of including objects and utils within the
+    ruleset.
+  - **Utilities:** Low-level, single-purpose immutable units of style, often only declaring a 
+    single declaration. These are not bound to any spcific ui or design abstruction, and can 
+    be used to change, adjust or augment
+
 JigSass Selectors is an attempt to provide tools for better tackling these tasks,
-and assisting with defining and generating clean and easy to main CSS based on responsive-enabled 
-reusable object and utility classes.
+and assisting with defining and generating clean and easy to maintain CSS based on 
+responsive-enabled, reusable object and utility classes.
 
 In order to keep a CSS footprint to a minimum, not even a single line of the defined CSS
 is generated unless it is explicitly included for use.
