@@ -25,13 +25,24 @@ $jigsass-breakpoints: (
 @import 'node_modules/jigsass-tools-maps/scss/index';
 @import 'node_modules/jigsass-tools-mq/scss/index';
 @import 'node_modules/jigsass-tools-typography/scss/index';
+@import 'node_modules/jigsass-tools-strings/scss/index';
+@import 'node_modules/jigsass-tools-bidi/scss/index';
+
+$m2s-test1: (
+  border-start: jigsass-rhythm(1) solid #ccc,
+  transform: translateX(50%),
+  padding: 0 jigsass-rhythm(2) 0 jigsass-rhythm(3)
+);
+
+$m2s-test2: (
+  '& > .nested': (
+    border-start: jigsass-rhythm(1) solid #ccc,
+  )
+);
 
 
 // Import project files.
 @import 'scss/index.scss';
-
-@mixin test-define-object {
-}
 
 @mixin test-silent($silent: false) {
   $_orig-silent: $jigsass-silent;
