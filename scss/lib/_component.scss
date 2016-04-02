@@ -1,0 +1,77 @@
+// ***************************************
+//
+// # Component
+// -> Ensure components are only rendered once.
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+// ***************************************
+
+@charset 'UTF-8';
+
+// -------------------------------------
+// Functions
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Mixins
+// -------------------------------------
+
+/// A helper for defining single-use CSS components that can be included numerous
+/// times, but will only be generated once, where it was first included.
+///
+/// If `$jigsass-silent` is set to `true` when a component is first
+/// included, no CSS will be generated even if it is included a second time
+/// when `$jigsass-silent` is set to `false`.
+/// ---
+/// @param {String} $name
+///   The name of the CSS component being defined, e.g. `login-area`
+/// ---
+/// @example
+///   @mixin login-area() { // <-- The custom component mixin
+///     @include jigsass-component(login-area) {  // <-- Using the helper
+///       @include jigsass-object(o-grid, $modifier: center);
+///       @include jigsass-object(o-grid, $modifier:gutter-8, $from: large);
+///       @include jigsass-util(u-mb, 4);
+///       @include jigsass-util(u-tac);
+///
+///       background-image: url(/images/some-awesome-background.png);
+///     }
+///   }
+/// ---
+/// @group Selectors - 04 Define
+/// ---
+@mixin jigsass-component($name) {
+  @if (not global-variable-exists(_jigsass-selectors)) { $_jigsass-selectors: () !global; }
+
+  // Generate block
+  // Will only generate if not already included and not in silent mode
+  @if (not map-get($_jigsass-selectors, $name)) {
+    @if (not $jigsass-silent) {
+      @content;
+
+      // store component as included in the `$_jigsass-selectors` map.
+      $_jigsass-selectors: map-merge($_jigsass-selectors, ($name: true)) !global;
+    }
+    @else {
+      // store component as silently included in the `$_jigsass-selectors` map.
+      $_jigsass-selectors: map-merge($_jigsass-selectors, ($name: silent)) !global;
+    }
+  }
+}

@@ -52,5 +52,6 @@ $_jigsass-selectors: () !default;
 @import 'lib/helpers';
 @import 'lib/object';
 @import 'lib/block';
+@import 'lib/component';
 @import 'lib/util';
 @import 'lib/map2styles';

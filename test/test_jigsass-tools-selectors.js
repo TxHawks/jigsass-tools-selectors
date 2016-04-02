@@ -1006,4 +1006,56 @@ describe('jigsass-tools-selectors', () => {
       });
     });
   });
+  describe('_component.scss', () => {
+    describe('jigsass-component [Mixin]', () => {
+      it('Generates styles', () => {
+        sassaby.standaloneMixin('jigsass-component')
+        .calledWithBlockAndArgs(
+          '.test {' +
+            'float: left;' +
+          '}',
+          'test'
+        )
+        .equals('.test {float: left}');
+      });
+
+      it('Generates styles only once at correct location', () => {
+        sassaby.standaloneMixin('test-silent')
+        .calledWithBlock(
+          '@include jigsass-component(test) {' +
+            '.test {' +
+              'float: left;' +
+            '}'+
+          '}' +
+          '.outside {clear: both;}' +
+          '@include jigsass-component(test) {' +
+            '.test {' +
+              'float: left;' +
+            '}'+
+          '}'
+        )
+        .equals('.test {float: left} .outside {clear:both}');
+      });
+
+      it('Mutes output when in silent mode', () => {
+        sassaby.standaloneMixin('test-silent')
+        .calledWithBlock(
+          '@include jigsass-mute;' +
+          '@include jigsass-component(test) {' +
+            '.test {' +
+              'float: left;' +
+            '}'+
+          '}' +
+          '@include jigsass-unmute;' +
+          '.outside {clear: both;}' +
+          '@include jigsass-component(test) {' +
+            '.test {' +
+              'float: left;' +
+            '}'+
+          '}'
+        )
+        .equals('.outside {clear:both}');
+      });
+    });
+  });
 });
