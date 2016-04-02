@@ -178,6 +178,13 @@ We can get something like this:
 └─────────────╨╨─────────────────────────────╨╨─────────────┘
 ```
 
+The `jigsass-object` and `jigsass-util` mixins will generate selectors according to the following 
+logic:
+
+```scss
+.class-name[--modifier][-[-from-{breakpoint-name}][-until-{breakpoint-name}][-misc-{breakpoint-name}]]
+```
+
 Please check the full [documentation](https://TxHawks.github.io/jigsass-tools-selectors) for
 a better understanding of how to use `jigsass-tools-mq`.
 
