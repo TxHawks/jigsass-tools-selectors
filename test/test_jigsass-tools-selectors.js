@@ -11,6 +11,37 @@ describe('jigsass-tools-selectors', () => {
     }
   });
 
+  describe('_map2style.scss', () => {
+    describe('jigsass-map2style [Mixin]', () => {
+      it('Creates styles from a map', () => {
+        sassaby.includedMixin('jigsass-map2styles')
+          .calledWithArgs('$m2s-test1')
+          .equals('border-left: 1rem solid #ccc; transform:translateX(50%); padding: 0 2rem 0 3rem');
+      });
+
+      it('Coverts direction correctly', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'jigsass-direction': 'rtl'
+          }
+        });
+        sassaby.includedMixin('jigsass-map2styles')
+          .calledWithArgs('$m2s-test1')
+          .equals('border-right: 1rem solid #ccc; transform:translateX(-50%); padding: 0 3rem 0 2rem');
+      });
+
+      it('Creates nested selectors from a map', () => {
+        sassaby.standaloneMixin('test-silent')
+          .calledWithBlock(
+            '.test {' +
+              '@include jigsass-map2styles($m2s-test2)' +
+            '}'
+          )
+          .equals('.test > .nested {border-left: 1rem solid #ccc}');
+      });
+    });
+  });
+
   describe('_silent.scss', () => {
     describe('jigsass-if-not-silent [Mixin]', () => {
       it('Suppresses CSS output when `$jigsass-silent` is true', () => {

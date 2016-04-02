@@ -1,0 +1,92 @@
+// *************************************
+//
+// # JigSass Selectors Map2styles
+// -> Convert a Sass map into CSS rulesets
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+//
+//
+// *************************************
+
+@charset 'UTF-8';
+
+// -------------------------------------
+// Functions
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+//
+
+
+
+
+
+// -------------------------------------
+// Mixins
+// -------------------------------------
+
+/// Convert Sass maps in to CSS rulesets
+/// ---
+/// @param {Map} $ruleset-map
+///   The map to convert to a ruleset.
+///   Supports nested maps for nested selectors
+/// ---
+/// @example scss - SCSS Input
+///   $foo-styles: (
+///     display: block,
+///     '& > .bar': (
+///       color: red
+///     )
+///   );
+///
+///   .foo {
+///     @inlcude jigsass-map2styles($foo-styles);
+///   }
+///
+/// @example scss - CSS Output
+///   .foo {
+///     display: block;
+///   }
+///     .foo > .bar {
+///       color: red
+///     }
+/// ---
+/// @requires jigsass-bidi
+///   Used for transforming bidirectional values
+///   https://txhawks.github.io/jigsass-tools-bidi/#mixin-jigsass-bidi
+/// ---
+/// @group Selectors - 04 Define
+/// ---
+@mixin jigsass-map2styles($ruleset-map) {
+  @if (not mixin-exists(jigsass-bidi)) {
+    @error '`jigsass-map2style` from `jigsass-tools-selectors` has a dependency on ' +
+      '`jigsass-tools-bidi`. Please import it.';
+  }
+
+  @each $item, $value in $ruleset-map {
+    // If nested ruleset
+    @if (type-of($value) == map) {
+      $selectors: $item;
+      $declaration-block: $value;
+
+      #{$selectors} {
+        @include jigsass-map2styles($declaration-block);
+      }
+    }
+
+    @else {
+      $property: $item;
+
+      @include jigsass-bidi($property, $value);
+    }
+  }
+}
