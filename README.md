@@ -200,7 +200,7 @@ logic:
 ```
 
 Please check the full [documentation](https://TxHawks.github.io/jigsass-tools-selectors) for
-a better understanding of how to use `jigsass-tools-mq`.
+a better understanding of how to use `jigsass-tools-selectors`.
 
 ## Development
 
