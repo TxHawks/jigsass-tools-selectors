@@ -54,11 +54,11 @@
 /// @group Selectors - 04 Define
 /// ---
 @function jigsass-get-obj-mq($type: false) {
-  @if($_jigsass-obj-current-mq-args) {
+  @if($jigsass-obj-current-mq-args) {
     @return if(
       $type,
-      map-get($_jigsass-obj-current-mq-args, $type),
-      $_jigsass-obj-current-mq-args
+      map-get($jigsass-obj-current-mq-args, $type),
+      $jigsass-obj-current-mq-args
     );
   }
 
@@ -77,11 +77,38 @@
 /// context of the `jigsass-classname` mixin to
 /// be used inside its `@content` block.
 /// ---
-/// @type Boolean | String
+/// @type Null | String
 /// ---
-/// @group Selectors - 04 Define
+/// @group Selectors - 05 Require
 /// ---
-$jigsass-obj-current-modifier: false !default;
+$jigsass-obj-current-modifier: null;
+
+/// The current media query arguments in the running
+/// context of the `jigsass-object` mixin to
+/// be used inside its `@content` block.
+/// ---
+/// @prop {Boolean | Number} from [false]
+///   The min-width condition of the current context.
+/// @prop {Boolean | Number} until [false]
+///   The max-width condition of the current context.
+/// @prop {Boolean | String | List} misc [false]
+///   The miscellaneous media-query conditions of the current context.
+/// ---
+/// @type Map
+/// ---
+/// @group Selectors - 05 Require
+/// ---
+$jigsass-obj-current-mq-args: (from: false, until: false, misc: false);
+
+/// The name of the object in the current running
+/// context of the `jigsass-classname` mixin to
+/// be used inside its `@content` block.
+/// ---
+/// @type Null | String
+/// ---
+/// @group Selectors - 05 Require
+/// ---
+$jigsass-obj-current-name: null;
 
 
 
@@ -128,8 +155,8 @@ $jigsass-obj-current-modifier: false !default;
 /// ---
 @mixin jigsass-define-object($name) {
   // Reset in global scope
-  $_jigsass-obj-current-mq-args: (from: false, until: false, misc: false) !global;
-  $_jigsass-obj-current-name: $name !global;
+  $jigsass-obj-current-mq-args: (from: false, until: false, misc: false) !global;
+  $jigsass-obj-current-name: $name !global;
 
   $_lengths: jigsass-mq-sort-length-breakpoints();
   $_features: map-get($jigsass-breakpoints, features);
@@ -140,7 +167,7 @@ $jigsass-obj-current-modifier: false !default;
     @each $bp-min, $length-min in $_lengths {
       @include jigsass-mq($from: $bp-min) {
         @if ($length-min != 0) {
-          $_jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: false) !global;
+          $jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: false) !global;
         }
 
         @content;
@@ -151,7 +178,7 @@ $jigsass-obj-current-modifier: false !default;
     @each $bp-max, $length-max in $_lengths {
       @if (jigsass-strip-unit($length-max) != 0) {
         @include jigsass-mq($until: $bp-max) {
-          $_jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: false) !global;
+          $jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: false) !global;
 
           @content;
         }
@@ -167,7 +194,7 @@ $jigsass-obj-current-modifier: false !default;
           $length-max > $length-min
         ) {
           @include jigsass-mq($from: $bp-min, $until: $bp-max) {
-            $_jigsass-obj-current-mq-args: (from: $bp-min, until: $bp-max, misc: false) !global;
+            $jigsass-obj-current-mq-args: (from: $bp-min, until: $bp-max, misc: false) !global;
 
             @content;
           }
@@ -180,7 +207,7 @@ $jigsass-obj-current-modifier: false !default;
   @if ($_features) {
     @each $misc-bp, $expression in $_features {
       @include jigsass-mq($misc: $misc-bp) {
-        $_jigsass-obj-current-mq-args: (from: false, until: false, misc: $misc-bp) !global;
+        $jigsass-obj-current-mq-args: (from: false, until: false, misc: $misc-bp) !global;
 
         @content;
       }
@@ -193,7 +220,7 @@ $jigsass-obj-current-modifier: false !default;
         @if (jigsass-strip-unit($length-min) != 0) {
           @each $misc-bp, $expression in $_features {
             @include jigsass-mq($from: $bp-min, $misc: $misc-bp) {
-              $_jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: $misc-bp) !global;
+              $jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: $misc-bp) !global;
 
               @content;
             }
@@ -206,7 +233,7 @@ $jigsass-obj-current-modifier: false !default;
         @if (jigsass-strip-unit($length-max) != 0) {
           @each $misc-bp, $expression in $_features {
             @include jigsass-mq($until: $bp-max, $misc: $misc-bp) {
-              $_jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: $misc-bp) !global;
+              $jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: $misc-bp) !global;
 
               @content;
             }
@@ -224,7 +251,7 @@ $jigsass-obj-current-modifier: false !default;
           ) {
             @each $misc-bp, $expression in $_features {
               @include jigsass-mq($from: $bp-min, $until: $bp-max, $misc: $misc-bp) {
-                $_jigsass-obj-current-mq-args: (
+                $jigsass-obj-current-mq-args: (
                   from: $bp-min,
                   until: $bp-max,
                   misc: $misc-bp
@@ -240,8 +267,8 @@ $jigsass-obj-current-modifier: false !default;
   }
 
   // Reset in global scope
-  $_jigsass-obj-current-mq-args: null !global;
-  $_jigsass-obj-current-name: null !global;
+  $jigsass-obj-current-mq-args: null !global;
+  $jigsass-obj-current-name: null !global;
 }
 
 
@@ -312,7 +339,7 @@ $jigsass-obj-current-modifier: false !default;
 /// Generate an object or object-modifier class name inside
 /// `jigsass-define-object`
 /// ---
-/// @param {String} $name [$_jigsass-obj-current-name]
+/// @param {String} $name [$jigsass-obj-current-name]
 ///   The object's base name. defaults to the name that was
 ///   passed in the calling `jigsass-define-object` mixin
 /// @param {String | Number | false} $modifier [false]
@@ -336,7 +363,7 @@ $jigsass-obj-current-modifier: false !default;
 /// ---
 /// @group Selectors - 04 Define
 /// ---
-@mixin jigsass-classname($name: $_jigsass-obj-current-name, $modifier: false) {
+@mixin jigsass-classname($name: $jigsass-obj-current-name, $modifier: false) {
   @if (not $name) {
     @error 'jigsass-classname: A `$name` is required for generating a selector.'
   }

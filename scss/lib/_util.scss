@@ -46,7 +46,19 @@
 // Variables
 // -------------------------------------
 
-//
+/// The current context's utility name.
+/// For use inside content blocks
+/// ---
+/// @type {Null | String}
+/// ---
+$jigsass-util-name: null;
+
+/// The current context's utility modifier.
+/// For use inside content blocks
+/// ---
+/// @type {Null | String}
+/// ---
+$jigsass-util-modifier: null;
 
 
 
@@ -68,6 +80,8 @@
   // with `@include jigsass-util($name)` at some point
   // in the past.
   @if (map-has-key($_jigsass-selectors, $name)) {
+    // Set util name in global scope
+    $jigsass-util-name: $name !global;
     // Reset util modifier in global scope
     $jigsass-util-modifier: null !global;
 
@@ -87,6 +101,9 @@
         }
       }
     }
+
+    // Reset util name in global scope
+    $jigsass-util-name: null !global;
   }
 }
 
