@@ -68,7 +68,7 @@
 /// ---
 @mixin jigsass-map2styles($ruleset-map) {
   @if (not mixin-exists(jigsass-bidi)) {
-    @error '`jigsass-map2style` from `jigsass-tools-selectors` has a dependency on ' +
+    @error '`jigsass-map2styles` from `jigsass-tools-selectors` has a dependency on ' +
       '`jigsass-tools-bidi`. Please import it.';
   }
 
