@@ -267,7 +267,7 @@ $jigsass-obj-current-name: null;
   }
 
   // Reset in global scope
-  $jigsass-obj-current-mq-args: null !global;
+  $jigsass-obj-current-mq-args: (from: false, until: false, misc: false) !global;
   $jigsass-obj-current-name: null !global;
 }
 

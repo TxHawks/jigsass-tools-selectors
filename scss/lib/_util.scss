@@ -47,18 +47,38 @@
 // -------------------------------------
 
 /// The current context's utility name.
-/// For use inside content blocks
+/// For use inside `@content` blocks
+/// ---
+/// @group Selectors - 04 Define
 /// ---
 /// @type {Null | String}
 /// ---
 $jigsass-util-name: null;
 
 /// The current context's utility modifier.
-/// For use inside content blocks
+/// For use inside `@content` blocks
+/// ---
+/// @group Selectors - 04 Define
 /// ---
 /// @type {Null | String}
 /// ---
 $jigsass-util-modifier: null;
+
+/// The current context's media query arguments.
+/// For use inside `@content` blocks.
+/// ---
+/// @prop {Boolean | Number} from [false]
+///   The min-width condition of the current context.
+/// @prop {Boolean | Number} until [false]
+///   The max-width condition of the current context.
+/// @prop {Boolean | String | List} misc [false]
+///   The miscellaneous media-query conditions of the current context.
+/// ---
+/// @type Map
+/// ---
+/// @group Selectors - 04 Define
+/// ---
+$jigsass-util-mq-args: (from: false, until: false, misc: false);
 
 
 
@@ -204,7 +224,7 @@ $jigsass-util-modifier: null;
     ''
   );
 
-  $_mq-args: _jigsass-mq-args-parser($bp-str);
+  $jigsass-util-mq-args: _jigsass-mq-args-parser($bp-str) !global;
 
   $_selector: '.#{jigsass-get-namespace()}#{$name}#{$_modifier}';
 
@@ -215,12 +235,15 @@ $jigsass-util-modifier: null;
   );
 
   @include jigsass-mq(
-    $from: map-get($_mq-args, from),
-    $until: map-get($_mq-args, until),
-    $misc: map-get($_mq-args, misc)
+    $from: map-get($jigsass-util-mq-args, from),
+    $until: map-get($jigsass-util-mq-args, until),
+    $misc: map-get($jigsass-util-mq-args, misc)
   ) {
     #{$_selector} {
       @content;
     }
   }
+
+  // Reset in global scope
+  $jigsass-util-mq-args: (from: false, until: false, misc: false) !global;
 }
