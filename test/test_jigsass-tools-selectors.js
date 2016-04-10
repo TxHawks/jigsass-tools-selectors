@@ -881,6 +881,16 @@ describe('jigsass-tools-selectors', () => {
             )
             .equals('.test-util--6{margin-top: 36px}');
         });
+        it('Escapes selector string when needed', () => {
+          sassaby.standaloneMixin('test-silent')
+            .calledWithBlock(
+              '@include jigsass-util(test-util, $modifier: 20%);' +
+              '@include jigsass-define-util(test-util) {' +
+                'transform: translateX($jigsass-util-modifier);' +
+              '}'
+            )
+            .equals('.test-util--20\\%{transform: translateX(20%);}');
+        });
       });
 
       describe('Cascade order', () => {

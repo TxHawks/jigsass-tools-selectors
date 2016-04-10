@@ -220,7 +220,7 @@ $jigsass-util-mq-args: (from: false, until: false, misc: false);
 @mixin _jigsass-define-util($name, $bp-str) {
   $_modifier: if(
     $jigsass-util-modifier,
-    '--#{$jigsass-util-modifier}',
+    '--#{jigsass-str-escape($jigsass-util-modifier)}',
     ''
   );
 
