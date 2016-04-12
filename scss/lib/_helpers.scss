@@ -194,6 +194,57 @@
   @return $conditions;
 }
 
+/// ---
+/// Parse a modifier string into a map with `modifier`, `state` and `args` keys,
+/// for use inside `@content` blocks.
+///
+/// Modifiers should be written in the following format: `'modifier-name(arg1-arg2):state'`
+/// ---
+/// @example scss
+///   $parsed: jigsass-parse-modifier(mod(tint-1):hover);
+///     // -> (modifier: mod, args: 'tint' 1, state: ':hover');
+/// ---
+/// @since 0.7.0
+/// ---
+/// @return {Map}
+///   A map of parsed values.
+/// ---
+@function jigsass-parse-modifier($modifier) {
+  $args: false;
+  $state: false;
+
+  @if (type-of(modifier) == string) {
+    $state-index: str-index($modifier, ':');
+    $state: if($state-index, str-slice($modifier, $state-index, -1), false);
+
+    $args-index: str-index($modifier, '(');
+    $args-end-index: if($state-index, $state-index - 2, -2);
+    $_args: if(
+      $args-index,
+      jigsass-str-split(str-slice($modifier, $args-index + 1, $args-end-index), '-'),
+      false
+    );
+
+    @if ($_args) {
+      $args: ();
+      $_warn-cache: $jigsass-str-to-number-suppress-warning;
+      $jigsass-str-to-number-suppress-warning: true !global;
+
+      @each $arg in $_args {
+        $args: append($args, jigsass-str-to-number($arg));
+      }
+      $jigsass-str-to-number-suppress-warning: $_warn-cache !global;
+    }
+
+    @if ($state or $args) {
+      $mod-end-index: if($args-index, $args-index - 1, if($state-index, $state-index - 1, -1));
+      $modifier: if($mod-end-index == 1, false, str-slice($modifier, 1, $mod-end-index));
+    }
+  }
+
+  @return (modifier: $modifier, state: $state, args: $args);
+}
+
 
 /// Generate a map used for generating a jigsass
 /// object or utility class in a correct and

@@ -256,6 +256,32 @@ describe('jigsass-tools-selectors', () => {
           );
       })
     });
+
+    describe('jigsass-parse-modifier [Function]', () => {
+      it('Returns map with `modifier`, `state` and `args`', () => {
+        sassaby.includedMixin('test-silent')
+          .calledWithBlock(
+            'mod: inspect(jigsass-parse-modifier("mod(arg1-arg2):hover"));'
+          )
+          .equals('mod: (modifier: "mod", state: ":hover", args: "arg1" "arg2")')
+      });
+
+      it('Returns map with `modifier`, and `state`', () => {
+        sassaby.includedMixin('test-silent')
+          .calledWithBlock(
+            'mod: inspect(jigsass-parse-modifier("mod:hover"));'
+          )
+          .equals('mod: (modifier: "mod", state: ":hover", args: false)')
+      });
+
+      it('Returns map with `modifier`, and `args`', () => {
+        sassaby.includedMixin('test-silent')
+          .calledWithBlock(
+            'mod: inspect(jigsass-parse-modifier("mod(tint-1)"));'
+          )
+          .equals('mod: (modifier: "mod", state: false, args: "tint" 1)')
+      });
+    });
   });
 
   describe('_object.scss', () => {
