@@ -198,10 +198,10 @@
 /// Parse a modifier string into a map with `modifier`, `state` and `args` keys,
 /// for use inside `@content` blocks.
 ///
-/// Modifiers should be written in the following format: `'modifier-name(arg1-arg2):state'`
+/// Modifiers should be written in the following format: `'modifier-name(arg1,arg2):state'`
 /// ---
 /// @example scss
-///   $parsed: jigsass-parse-modifier(mod(tint-1):hover);
+///   $parsed: jigsass-parse-modifier(mod(tint,1):hover);
 ///     // -> (modifier: mod, args: 'tint' 1, state: ':hover');
 /// ---
 /// @since 0.7.0
@@ -221,7 +221,7 @@
     $args-end-index: if($state-index, $state-index - 2, -2);
     $_args: if(
       $args-index,
-      jigsass-str-split(str-slice($modifier, $args-index + 1, $args-end-index), '-'),
+      jigsass-str-split(str-slice($modifier, $args-index + 1, $args-end-index), ','),
       false
     );
 

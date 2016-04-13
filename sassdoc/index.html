@@ -165,7 +165,7 @@
     $args-end-index: if($state-index, $state-index - 2, -2);
     $_args: if(
       $args-index,
-      jigsass-str-split(str-slice($modifier, $args-index + 1, $args-end-index), &#39;-&#39;),
+      jigsass-str-split(str-slice($modifier, $args-index + 1, $args-end-index), &#39;,&#39;),
       false
     );
 
@@ -187,7 +187,7 @@
   }
 
   @return (modifier: $modifier, state: $state, args: $args);
- }" data-collapsed="@function jigsass-parse-modifier() { ... }"><code>@function jigsass-parse-modifier() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Parse a modifier string into a map with <code>modifier</code>, <code>state</code> and <code>args</code> keys, for use inside <code>@content</code> blocks.</p><p>Modifiers should be written in the following format: <code>&#39;modifier-name(arg1-arg2):state&#39;</code></p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Map</code> &mdash;<p>A map of parsed values.</p></div><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>$parsed: jigsass-parse-modifier(mod(tint-1):hover);
+ }" data-collapsed="@function jigsass-parse-modifier() { ... }"><code>@function jigsass-parse-modifier() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Parse a modifier string into a map with <code>modifier</code>, <code>state</code> and <code>args</code> keys, for use inside <code>@content</code> blocks.</p><p>Modifiers should be written in the following format: <code>&#39;modifier-name(arg1,arg2):state&#39;</code></p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Map</code> &mdash;<p>A map of parsed values.</p></div><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>$parsed: jigsass-parse-modifier(mod(tint,1):hover);
   // -&gt; (modifier: mod, args: &#39;tint&#39; 1, state: &#39;:hover&#39;);</code></pre></div></section><section class="main__item container item" id="function-_jigsass-class-was-included"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_jigsass-class-was-included">_jigsass-class-was-included</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _jigsass-class-was-included($name, $from, $until, $misc, $modifier) { 
   @if (not function-exists(jigsass-get)) {
     @error &#39;`_jigsass-selector-was-defined()` has a dependency on &#39; +

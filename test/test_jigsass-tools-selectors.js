@@ -261,7 +261,7 @@ describe('jigsass-tools-selectors', () => {
       it('Returns map with `modifier`, `state` and `args`', () => {
         sassaby.includedMixin('test-silent')
           .calledWithBlock(
-            'mod: inspect(jigsass-parse-modifier("mod(arg1-arg2):hover"));'
+            'mod: inspect(jigsass-parse-modifier("mod(arg1,arg2):hover"));'
           )
           .equals('mod: (modifier: "mod", state: ":hover", args: "arg1" "arg2")')
       });
@@ -277,7 +277,7 @@ describe('jigsass-tools-selectors', () => {
       it('Returns map with `modifier`, and `args`', () => {
         sassaby.includedMixin('test-silent')
           .calledWithBlock(
-            'mod: inspect(jigsass-parse-modifier("mod(tint-1)"));'
+            'mod: inspect(jigsass-parse-modifier("mod(tint,1)"));'
           )
           .equals('mod: (modifier: "mod", state: false, args: "tint" 1)')
       });
