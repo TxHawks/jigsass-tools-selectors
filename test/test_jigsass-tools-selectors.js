@@ -263,7 +263,7 @@ describe('jigsass-tools-selectors', () => {
           .calledWithBlock(
             'mod: inspect(jigsass-parse-modifier("mod(arg1,arg2):hover"));'
           )
-          .equals('mod: (modifier: "mod", state: ":hover", args: "arg1" "arg2")')
+          .equals('mod: (modifier: "mod", state: :hover, args: "arg1" "arg2")')
       });
 
       it('Returns map with `modifier`, and `state`', () => {
@@ -271,7 +271,7 @@ describe('jigsass-tools-selectors', () => {
           .calledWithBlock(
             'mod: inspect(jigsass-parse-modifier("mod:hover"));'
           )
-          .equals('mod: (modifier: "mod", state: ":hover", args: false)')
+          .equals('mod: (modifier: "mod", state: :hover, args: false)')
       });
 
       it('Returns map with `modifier`, and `args`', () => {

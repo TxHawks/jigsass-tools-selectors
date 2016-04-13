@@ -215,7 +215,7 @@
 
   @if (type-of(modifier) == string) {
     $state-index: str-index($modifier, ':');
-    $state: if($state-index, str-slice($modifier, $state-index, -1), false);
+    $state: if($state-index, unquote(str-slice($modifier, $state-index, -1)), false);
 
     $args-index: str-index($modifier, '(');
     $args-end-index: if($state-index, $state-index - 2, -2);
