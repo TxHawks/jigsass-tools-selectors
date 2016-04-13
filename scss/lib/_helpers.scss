@@ -238,7 +238,7 @@
 
     @if ($state or $args) {
       $mod-end-index: if($args-index, $args-index - 1, if($state-index, $state-index - 1, -1));
-      $modifier: if($mod-end-index == 1, false, str-slice($modifier, 1, $mod-end-index));
+      $modifier: if($mod-end-index == 0, false, str-slice($modifier, 1, $mod-end-index));
     }
   }
 
