@@ -157,7 +157,7 @@
   $args: false;
   $state: false;
 
-  @if (type-of(modifier) == string) {
+  @if (type-of($modifier) == string) {
     $state-index: str-index($modifier, &#39;:&#39;);
     $state: if($state-index, unquote(str-slice($modifier, $state-index, -1)), false);
 
