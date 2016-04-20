@@ -25,6 +25,26 @@
 
 
 // -------------------------------------
+// Variables
+// -------------------------------------
+
+/// Selector map cache
+///
+/// Selector maps are always identical, so can be
+/// generated once and cached.
+///
+/// For internal use by _jigsass-generate-selector-map
+/// ---
+/// @access private
+/// ---
+/// @type {Map}
+/// ---
+$_jigsass-selector-map: false;
+
+
+
+
+// -------------------------------------
 // Functions
 // -------------------------------------
 
@@ -270,81 +290,41 @@
 /// @access private
 /// ---
 @function _jigsass-generate-selector-map($name, $bps: $jigsass-breakpoints) {
-  $_lengths: jigsass-mq-sort-length-breakpoints(map-get($bps, lengths));
-  $_features: map-get($bps, features);
+  $selector-map: ();
 
-  $selector-map: (
-    no-breakpoint: (
-      no-modifier: false,
-    ),
-  );
-
-  // Width breakpoints
-  @if($_lengths) {
-    // Min width breakpoints
-    @each $bp-min, $length-min in $_lengths {
-      @if (jigsass-strip-unit($length-min) != 0) {
-        $selector-map: map-merge($selector-map, (from-#{$bp-min}: (no-modifier: false)));
-      }
-    }
-
-    // Max width breakpoints
-    @each $bp-max, $length-max in $_lengths {
-      @if (jigsass-strip-unit($length-max) != 0) {
-        $selector-map: map-merge($selector-map, (until-#{$bp-max}: (no-modifier: false)));
-      }
-    }
-
-    // Min and max width breakpoints
-    @each $bp-min, $length-min in $_lengths {
-      @each $bp-max, $length-max in $_lengths {
-        @if (
-          jigsass-strip-unit($length-min) != 0 and
-          jigsass-strip-unit($length-max) != 0 and
-          $length-max > $length-min
-        ) {
-          $selector-map: map-merge(
-            $selector-map,
-            (from-#{$bp-min}-until-#{$bp-max}: (no-modifier: false))
-          );
-        }
-      }
-    }
+  // Use cached selector map if avilable
+  @if ($_jigsass-selector-map) {
+    $selector-map: $_jigsass-selector-map;
   }
 
-  // Misc media query features breakpoints
-  @if ($_features) {
-    @each $misc-bp, $expression in $_features {
-      $selector-map: map-merge($selector-map, (when-#{$misc-bp}: (no-modifier: false)));
-    }
+  // Generate selector-map if it has not already been cached.
+  @else {}
+    $_lengths: jigsass-mq-sort-length-breakpoints(map-get($bps, lengths));
+    $_features: map-get($bps, features);
 
-    // Width and misc media queries
+    $selector-map: (
+      no-breakpoint: (
+        no-modifier: false,
+      ),
+    );
+
+    // Width breakpoints
     @if($_lengths) {
-      // Min width and feature breakpoints
+      // Min width breakpoints
       @each $bp-min, $length-min in $_lengths {
         @if (jigsass-strip-unit($length-min) != 0) {
-          @each $misc-bp, $expression in $_features {
-            $selector-map: map-merge(
-              $selector-map,
-              (from-#{$bp-min}-when-#{$misc-bp}: (no-modifier: false))
-            );
-          }
+          $selector-map: map-merge($selector-map, (from-#{$bp-min}: (no-modifier: false)));
         }
       }
 
-      // Max width and feature breakpoints
+      // Max width breakpoints
       @each $bp-max, $length-max in $_lengths {
         @if (jigsass-strip-unit($length-max) != 0) {
-          @each $misc-bp, $expression in $_features {
-            $selector-map: map-merge(
-              $selector-map,
-              (until-#{$bp-max}-when-#{$misc-bp}: (no-modifier: false))
-            );
-          }
+          $selector-map: map-merge($selector-map, (until-#{$bp-max}: (no-modifier: false)));
         }
       }
 
-      // Min and max width and feature breakpoints
+      // Min and max width breakpoints
       @each $bp-min, $length-min in $_lengths {
         @each $bp-max, $length-max in $_lengths {
           @if (
@@ -352,17 +332,71 @@
             jigsass-strip-unit($length-max) != 0 and
             $length-max > $length-min
           ) {
+            $selector-map: map-merge(
+              $selector-map,
+              (from-#{$bp-min}-until-#{$bp-max}: (no-modifier: false))
+            );
+          }
+        }
+      }
+    }
+
+    // Misc media query features breakpoints
+    @if ($_features) {
+      @each $misc-bp, $expression in $_features {
+        $selector-map: map-merge($selector-map, (when-#{$misc-bp}: (no-modifier: false)));
+      }
+
+      // Width and misc media queries
+      @if($_lengths) {
+        // Min width and feature breakpoints
+        @each $bp-min, $length-min in $_lengths {
+          @if (jigsass-strip-unit($length-min) != 0) {
             @each $misc-bp, $expression in $_features {
               $selector-map: map-merge(
                 $selector-map,
-                (from-#{$bp-min}-until-#{$bp-max}-when-#{$misc-bp}: (no-modifier: false))
+                (from-#{$bp-min}-when-#{$misc-bp}: (no-modifier: false))
               );
+            }
+          }
+        }
+
+        // Max width and feature breakpoints
+        @each $bp-max, $length-max in $_lengths {
+          @if (jigsass-strip-unit($length-max) != 0) {
+            @each $misc-bp, $expression in $_features {
+              $selector-map: map-merge(
+                $selector-map,
+                (until-#{$bp-max}-when-#{$misc-bp}: (no-modifier: false))
+              );
+            }
+          }
+        }
+
+        // Min and max width and feature breakpoints
+        @each $bp-min, $length-min in $_lengths {
+          @each $bp-max, $length-max in $_lengths {
+            @if (
+              jigsass-strip-unit($length-min) != 0 and
+              jigsass-strip-unit($length-max) != 0 and
+              $length-max > $length-min
+            ) {
+              @each $misc-bp, $expression in $_features {
+                $selector-map: map-merge(
+                  $selector-map,
+                  (from-#{$bp-min}-until-#{$bp-max}-when-#{$misc-bp}: (no-modifier: false))
+                );
+              }
             }
           }
         }
       }
     }
+
+    // Cache selector-map
+    $_jigsass-selector-map: $selector-map !global;
   }
+
 
   @return ($name: $selector-map);
 }
