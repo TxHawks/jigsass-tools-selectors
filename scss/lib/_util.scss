@@ -160,10 +160,10 @@ $jigsass-util-mq-args: (from: false, until: false, misc: false);
 /// ---
 @mixin jigsass-util($name, $from: false, $until: false, $misc: false, $modifier: false) {
   @if (not map-has-key($_jigsass-selectors, $name)) {
-    $_jigsass-selectors: map-merge(
+    $_jigsass-selectors: jigsass-deep-merge(
       $_jigsass-selectors,
       _jigsass-generate-selector-map($name)
-    );
+    ) !global;
   }
 
   // Check if util was already included
@@ -177,8 +177,8 @@ $jigsass-util-mq-args: (from: false, until: false, misc: false);
     // Make sure $modifier is not called `no-modifier`.
     @if ($modifier) {
       @if ($modifier == 'no-modifier') {
-        @error 'jigsass-util: A jigsass util class modifier cannot be called `no-modifier`. ' +
-          '(from #{$name}).';
+        @error 'jigsass-util: A jigsass util class modifier cannot be called ' +
+          '`no-modifier`. (from #{$name}).';
       }
     }
 
@@ -192,6 +192,7 @@ $jigsass-util-mq-args: (from: false, until: false, misc: false);
         )
       )
     );
+
 
     $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
   }

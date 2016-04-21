@@ -138,7 +138,7 @@ describe('jigsass-tools-selectors', () => {
             '$misc: landscape',
             '$modifier: mod'
           )
-          .equals('test-name--mod--from-s--until-l--when-landscape');
+          .equals('test-name--mod--from-s-until-l-when-landscape');
       });
 
       describe('errors', () => {
@@ -149,7 +149,7 @@ describe('jigsass-tools-selectors', () => {
               sassaby.func('_jigsass-gen-class-name')
               .calledWithArgs('$name: test-name, $from: bogous')
             },
-            /_jigsass-gen-class-name: bogous is not defined in the lengths breakpoints map \(from test-name\)/
+            /_jigsass-bp-string: bogous is not a named width breakpoint/
           );
         });
 
@@ -160,7 +160,7 @@ describe('jigsass-tools-selectors', () => {
               sassaby.func('_jigsass-gen-class-name')
               .calledWithArgs('$name: test-name, $until: bogous')
             },
-            /_jigsass-gen-class-name: bogous is not defined in the lengths breakpoints map \(from test-name\)/
+            /_jigsass-bp-string: bogous is not a named width breakpoint/
           );
         });
 
@@ -170,7 +170,7 @@ describe('jigsass-tools-selectors', () => {
               sassaby.func('_jigsass-gen-class-name')
               .calledWithArgs('$name: test-name, $misc: bogous')
             },
-            /_jigsass-gen-class-name: bogous is not defined in the misc features breakpoints map \(from test-name\)/
+            /_jigsass-bp-string: bogous is not a named misc feature breakpoint/
           );
         });
       })
@@ -285,337 +285,287 @@ describe('jigsass-tools-selectors', () => {
   });
 
   describe('_object.scss', () => {
-    describe('jigsass-define-object [Mixin]', () => {
-      it('generates all placeholder selectors inside correct media queries', () => {
-        sassaby.standaloneMixin('jigsass-define-object')
-          .calledWithBlockAndArgs(
-            '@include jigsass-classname {' +
-              '$_selector: str-slice(inspect(&), 2);' +
+    describe('jigsass-object [Mixin]', () => {
+      it('Creates a basic selector when it is enabled in config object', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(no-breakpoint: (no-modifier: true))'
+          }
+        });
 
-              '@at-root {' +
-                '.#{$_selector} {k:v;}' +
-              '}' +
-            '}',
-            'test-obj'
-          )
-          .equals(
-            '.test-obj{k:v}' +
-            '@media(min-width:20em){.test-obj--from-s{k:v}}' +
-            '@media(min-width:45em){.test-obj--from-m{k:v}}' +
-            '@media(min-width:64em){.test-obj--from-l{k:v}}' +
-            '@media(max-width:19.99em){.test-obj--until-s{k:v}}' +
-            '@media(max-width:44.99em){.test-obj--until-m{k:v}}' +
-            '@media(max-width:63.99em){.test-obj--until-l{k:v}}' +
-            '@media(min-width:20em) and (max-width:44.99em){.test-obj--from-s--until-m{k:v}}' +
-            '@media(min-width:20em) and (max-width:63.99em){.test-obj--from-s--until-l{k:v}}' +
-            '@media(min-width:45em) and (max-width:63.99em){.test-obj--from-m--until-l{k:v}}' +
-            '@media(orientation:landscape){.test-obj--when-landscape{k:v}}' +
-            '@media(orientation:portrait){.test-obj--when-portrait{k:v}}' +
-            '@media(min-width:20em) and (orientation:landscape){.test-obj--from-s--when-landscape{k:v}}' +
-            '@media(min-width:20em) and (orientation:portrait){.test-obj--from-s--when-portrait{k:v}}' +
-            '@media(min-width:45em) and (orientation:landscape){.test-obj--from-m--when-landscape{k:v}}' +
-            '@media(min-width:45em) and (orientation:portrait){.test-obj--from-m--when-portrait{k:v}}' +
-            '@media(min-width:64em) and (orientation:landscape){.test-obj--from-l--when-landscape{k:v}}' +
-            '@media(min-width:64em) and (orientation:portrait){.test-obj--from-l--when-portrait{k:v}}' +
-            '@media(max-width:19.99em) and (orientation:landscape){.test-obj--until-s--when-landscape{k:v}}' +
-            '@media(max-width:19.99em) and (orientation:portrait){.test-obj--until-s--when-portrait{k:v}}' +
-            '@media(max-width:44.99em) and (orientation:landscape){.test-obj--until-m--when-landscape{k:v}}' +
-            '@media(max-width:44.99em) and (orientation:portrait){.test-obj--until-m--when-portrait{k:v}}' +
-            '@media(max-width:63.99em) and (orientation:landscape){.test-obj--until-l--when-landscape{k:v}}' +
-            '@media(max-width:63.99em) and (orientation:portrait){.test-obj--until-l--when-portrait{k:v}}' +
-            '@media(min-width:20em) and (max-width:44.99em) and (orientation:landscape){.test-obj--from-s--until-m--when-landscape{k:v}}' +
-            '@media(min-width:20em) and (max-width:44.99em) and (orientation:portrait){.test-obj--from-s--until-m--when-portrait{k:v}}' +
-            '@media(min-width:20em) and (max-width:63.99em) and (orientation:landscape){.test-obj--from-s--until-l--when-landscape{k:v}}' +
-            '@media(min-width:20em) and (max-width:63.99em) and (orientation:portrait){.test-obj--from-s--until-l--when-portrait{k:v}}' +
-            '@media(min-width:45em) and (max-width:63.99em) and (orientation:landscape){.test-obj--from-m--until-l--when-landscape{k:v}}' +
-            '@media(min-width:45em) and (max-width:63.99em) and (orientation:portrait){.test-obj--from-m--until-l--when-portrait{k:v}}'
-          );
-      });
-
-      it('Generates modifier', () => {
-        sassaby.standaloneMixin('jigsass-define-object')
-          .calledWithBlockAndArgs(
-            '@include jigsass-classname($modifier: bar) {' +
-              '$_selector: str-slice(inspect(&), 2);' +
-
-              '@at-root {' +
-                '.#{$_selector} {k:v;}' +
-              '}' +
-            '}',
-            'foo'
-          )
-          .equals(
-            '.foo--bar{k:v}' +
-            '@media(min-width:20em){.foo--bar--from-s{k:v}}' +
-            '@media(min-width:45em){.foo--bar--from-m{k:v}}' +
-            '@media(min-width:64em){.foo--bar--from-l{k:v}}' +
-            '@media(max-width:19.99em){.foo--bar--until-s{k:v}}' +
-            '@media(max-width:44.99em){.foo--bar--until-m{k:v}}' +
-            '@media(max-width:63.99em){.foo--bar--until-l{k:v}}' +
-            '@media(min-width:20em) and (max-width:44.99em){.foo--bar--from-s--until-m{k:v}}' +
-            '@media(min-width:20em) and (max-width:63.99em){.foo--bar--from-s--until-l{k:v}}' +
-            '@media(min-width:45em) and (max-width:63.99em){.foo--bar--from-m--until-l{k:v}}' +
-            '@media(orientation:landscape){.foo--bar--when-landscape{k:v}}' +
-            '@media(orientation:portrait){.foo--bar--when-portrait{k:v}}' +
-            '@media(min-width:20em) and (orientation:landscape){.foo--bar--from-s--when-landscape{k:v}}' +
-            '@media(min-width:20em) and (orientation:portrait){.foo--bar--from-s--when-portrait{k:v}}' +
-            '@media(min-width:45em) and (orientation:landscape){.foo--bar--from-m--when-landscape{k:v}}' +
-            '@media(min-width:45em) and (orientation:portrait){.foo--bar--from-m--when-portrait{k:v}}' +
-            '@media(min-width:64em) and (orientation:landscape){.foo--bar--from-l--when-landscape{k:v}}' +
-            '@media(min-width:64em) and (orientation:portrait){.foo--bar--from-l--when-portrait{k:v}}' +
-            '@media(max-width:19.99em) and (orientation:landscape){.foo--bar--until-s--when-landscape{k:v}}' +
-            '@media(max-width:19.99em) and (orientation:portrait){.foo--bar--until-s--when-portrait{k:v}}' +
-            '@media(max-width:44.99em) and (orientation:landscape){.foo--bar--until-m--when-landscape{k:v}}' +
-            '@media(max-width:44.99em) and (orientation:portrait){.foo--bar--until-m--when-portrait{k:v}}' +
-            '@media(max-width:63.99em) and (orientation:landscape){.foo--bar--until-l--when-landscape{k:v}}' +
-            '@media(max-width:63.99em) and (orientation:portrait){.foo--bar--until-l--when-portrait{k:v}}' +
-            '@media(min-width:20em) and (max-width:44.99em) and (orientation:landscape){.foo--bar--from-s--until-m--when-landscape{k:v}}' +
-            '@media(min-width:20em) and (max-width:44.99em) and (orientation:portrait){.foo--bar--from-s--until-m--when-portrait{k:v}}' +
-            '@media(min-width:20em) and (max-width:63.99em) and (orientation:landscape){.foo--bar--from-s--until-l--when-landscape{k:v}}' +
-            '@media(min-width:20em) and (max-width:63.99em) and (orientation:portrait){.foo--bar--from-s--until-l--when-portrait{k:v}}' +
-            '@media(min-width:45em) and (max-width:63.99em) and (orientation:landscape){.foo--bar--from-m--until-l--when-landscape{k:v}}' +
-            '@media(min-width:45em) and (max-width:63.99em) and (orientation:portrait){.foo--bar--from-m--until-l--when-portrait{k:v}}'
-          );
-      });
-
-      it('Generates base class and modifier in correct order', () => {
-        sassaby.standaloneMixin('jigsass-define-object')
+        sassaby.standaloneMixin('jigsass-object')
           .calledWithBlockAndArgs(
             '@include jigsass-classname() {' +
-              '$_selector: str-slice(inspect(&), 2);' +
-              '@at-root {' +
-                '.#{$_selector} {k:v;}' +
-              '}' +
-            '}' +
-            '@include jigsass-classname($modifier: bar) {' +
-              '$_selector: str-slice(inspect(&), 2);' +
-              '@at-root {' +
-                '.#{$_selector} {k:v;}' +
-              '}' +
+              'bar: baz;' +
             '}',
-            'foo'
+            'foo, $o-foo-conf'
+          )
+          .equals('.foo{bar:baz}');
+      });
+
+      it('Creates a min-width selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(from-s: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(min-width:20em){.foo--from-s{bar:baz}}');
+      });
+
+      it('Creates a max-width selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(until-m: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(max-width:44.99em){.foo--until-m{bar:baz}}');
+      });
+
+      it('Creates a misc mq selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(when-landscape: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(orientation:landscape){.foo--when-landscape{bar:baz}}');
+      });
+
+      it('Creates a min-and-max-width selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(from-s-until-m: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(min-width:20em) and (max-width:44.99em){.foo--from-s-until-m{bar:baz}}');
+      });
+
+      it('Creates a min-and-misc selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(from-s-when-portrait: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(min-width:20em) and (orientation:portrait){.foo--from-s-when-portrait{bar:baz}}');
+      });
+
+      it('Creates a max-and-misc selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(until-m-when-portrait: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(max-width:44.99em) and (orientation:portrait){.foo--until-m-when-portrait{bar:baz}}');
+      });
+
+      it('Creates a min-and-max-and-misc selector', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(from-s-until-m-when-portrait: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('@media(min-width:20em) and (max-width:44.99em) and (orientation:portrait){.foo--from-s-until-m-when-portrait{bar:baz}}');
+      });
+
+      it('Creates selectors in correct order', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(' +
+             'from-s-until-m-when-portrait: (no-modifier: true),' +
+              'until-m: (no-modifier: true),' +
+             'from-l: (no-modifier: true),' +
+             'no-breakpoint: (quax: true, no-modifier: true),' +
+             'until-s: (no-modifier: true),' +
+              'from-s: (no-modifier: true),' +
+            ')'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}' +
+            '@include jigsass-classname(quax) {' +
+              'frog: troll;' +
+            '}',
+            'foo, $o-foo-conf'
           )
           .equals(
-            '.foo{k:v}' +
-						'.foo--bar{k:v}' +
-						'@media(min-width:20em){.foo--from-s{k:v}.foo--bar--from-s{k:v}}' +
-						'@media(min-width:45em){.foo--from-m{k:v}.foo--bar--from-m{k:v}}' +
-						'@media(min-width:64em){.foo--from-l{k:v}.foo--bar--from-l{k:v}}' +
-						'@media(max-width:19.99em){.foo--until-s{k:v}.foo--bar--until-s{k:v}}' +
-						'@media(max-width:44.99em){.foo--until-m{k:v}.foo--bar--until-m{k:v}}' +
-						'@media(max-width:63.99em){.foo--until-l{k:v}.foo--bar--until-l{k:v}}' +
-						'@media(min-width:20em) and (max-width:44.99em){.foo--from-s--until-m{k:v}.foo--bar--from-s--until-m{k:v}}' +
-						'@media(min-width:20em) and (max-width:63.99em){.foo--from-s--until-l{k:v}.foo--bar--from-s--until-l{k:v}}' +
-						'@media(min-width:45em) and (max-width:63.99em){.foo--from-m--until-l{k:v}.foo--bar--from-m--until-l{k:v}}' +
-						'@media(orientation:landscape){.foo--when-landscape{k:v}.foo--bar--when-landscape{k:v}}' +
-						'@media(orientation:portrait){.foo--when-portrait{k:v}.foo--bar--when-portrait{k:v}}' +
-						'@media(min-width:20em) and (orientation:landscape){.foo--from-s--when-landscape{k:v}.foo--bar--from-s--when-landscape{k:v}}' +
-						'@media(min-width:20em) and (orientation:portrait){.foo--from-s--when-portrait{k:v}.foo--bar--from-s--when-portrait{k:v}}' +
-						'@media(min-width:45em) and (orientation:landscape){.foo--from-m--when-landscape{k:v}.foo--bar--from-m--when-landscape{k:v}}' +
-						'@media(min-width:45em) and (orientation:portrait){.foo--from-m--when-portrait{k:v}.foo--bar--from-m--when-portrait{k:v}}' +
-						'@media(min-width:64em) and (orientation:landscape){.foo--from-l--when-landscape{k:v}.foo--bar--from-l--when-landscape{k:v}}' +
-						'@media(min-width:64em) and (orientation:portrait){.foo--from-l--when-portrait{k:v}.foo--bar--from-l--when-portrait{k:v}}' +
-						'@media(max-width:19.99em) and (orientation:landscape){.foo--until-s--when-landscape{k:v}.foo--bar--until-s--when-landscape{k:v}}' +
-						'@media(max-width:19.99em) and (orientation:portrait){.foo--until-s--when-portrait{k:v}.foo--bar--until-s--when-portrait{k:v}}' +
-						'@media(max-width:44.99em) and (orientation:landscape){.foo--until-m--when-landscape{k:v}.foo--bar--until-m--when-landscape{k:v}}' +
-						'@media(max-width:44.99em) and (orientation:portrait){.foo--until-m--when-portrait{k:v}.foo--bar--until-m--when-portrait{k:v}}' +
-						'@media(max-width:63.99em) and (orientation:landscape){.foo--until-l--when-landscape{k:v}.foo--bar--until-l--when-landscape{k:v}}' +
-						'@media(max-width:63.99em) and (orientation:portrait){.foo--until-l--when-portrait{k:v}.foo--bar--until-l--when-portrait{k:v}}' +
-						'@media(min-width:20em) and (max-width:44.99em) and (orientation:landscape){.foo--from-s--until-m--when-landscape{k:v}.foo--bar--from-s--until-m--when-landscape{k:v}}' +
-						'@media(min-width:20em) and (max-width:44.99em) and (orientation:portrait){.foo--from-s--until-m--when-portrait{k:v}.foo--bar--from-s--until-m--when-portrait{k:v}}' +
-						'@media(min-width:20em) and (max-width:63.99em) and (orientation:landscape){.foo--from-s--until-l--when-landscape{k:v}.foo--bar--from-s--until-l--when-landscape{k:v}}' +
-						'@media(min-width:20em) and (max-width:63.99em) and (orientation:portrait){.foo--from-s--until-l--when-portrait{k:v}.foo--bar--from-s--until-l--when-portrait{k:v}}' +
-						'@media(min-width:45em) and (max-width:63.99em) and (orientation:landscape){.foo--from-m--until-l--when-landscape{k:v}.foo--bar--from-m--until-l--when-landscape{k:v}}' +
-						'@media(min-width:45em) and (max-width:63.99em) and (orientation:portrait){.foo--from-m--until-l--when-portrait{k:v}.foo--bar--from-m--until-l--when-portrait{k:v}}'
+            '.foo{bar:baz}' +
+            '.foo--quax{frog:troll}' +
+            '@media(min-width:20em){.foo--from-s{bar:baz}}' +
+            '@media(min-width:64em){.foo--from-l{bar:baz}}' +
+            '@media(max-width:19.99em){.foo--until-s{bar:baz}}' +
+            '@media(max-width:44.99em){.foo--until-m{bar:baz}}' +
+            '@media(min-width:20em) and (max-width:44.99em) and (orientation:portrait){.foo--from-s-until-m-when-portrait{bar:baz}}'
           );
       });
 
-      it('Throws when trying to modifier is `no-modifier`', () => {
+      it('Only generates selector once', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(no-breakpoint: (no-modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}' +
+            '@include jigsass-classname() {' +
+              'baz: quax;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('.foo{bar:baz}');
+      });
+
+      it('Handles selector namespacing correctly', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(no-breakpoint: (no-modifier: true))',
+           'jigsass-namespace': 'quax',
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('.quax-foo{bar:baz}');
+      });
+
+      it('Does not create a basic selector when it is missing from config object', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(no-breakpoint: (modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('');
+      });
+
+      it('Does not create a basic selector when it is disabled in config object', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '(no-breakpoint: (no-modifier: false, modifier: true))'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('');
+      });
+
+      it('Does not create a basic selector when bp is not present in config object', () => {
+        const sassaby = new Sassaby(file, {
+          variables: {
+           'o-foo-conf': '()'
+          }
+        });
+
+        sassaby.standaloneMixin('jigsass-object')
+          .calledWithBlockAndArgs(
+            '@include jigsass-classname() {' +
+              'bar: baz;' +
+            '}',
+            'foo, $o-foo-conf'
+          )
+          .equals('');
+      });
+
+
+      it('Throws when modifier is `no-modifier`', () => {
         assert.throws(
           () => {
-            sassaby.standaloneMixin('jigsass-define-object')
+            const sassaby = new Sassaby(file, {
+              variables: {
+              'o-foo-conf': '(no-breakpoint: (no-modifier: true))'
+              }
+            });
+
+            sassaby.standaloneMixin('jigsass-object')
               .calledWithBlockAndArgs(
                 '@include jigsass-classname($modifier: no-modifier) {' +
-                  '$_selector: str-slice(inspect(&), 2);' +
-
-                  '@at-root {' +
-                    '.#{$_selector} {k:v;}' +
-                  '}' +
+                  'bar: baz;' +
                 '}',
-                'foo'
+                'foo, $o-foo-conf'
               );
           },
           /jigsass-classname: A jigsass class modifier cannot be called `no-modifier` \(from foo\)/
         );
-      });
-    });
-
-    describe('jigsass-object [Mixin]', () => {
-      it('Creates selector', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(foo) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(foo)'
-          )
-          .createsSelector('.foo');
-      });
-
-      it('Handles namespacing correctly', ()=> {
-        const sassaby = new Sassaby(file, {
-          variables: {
-            'jigsass-namespace': 'jig'
-          }
-        })
-
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(foo) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(foo)'
-          )
-          .createsSelector('.jig-foo');
-      });
-
-      it('Creates selector with modifier', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(foo) {' +
-              '@include jigsass-classname($modifier: bar) {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(foo, $modifier: bar)'
-          )
-          .createsSelector('.foo--bar');
-      });
-
-      it('Creates selector with min-width media-query', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(name) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(name, $from: s)'
-          )
-          .equals('@media(min-width:20em){.name--from-s{k:v}}');
-      });
-
-      it('Creates selector with max-width media-query', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(name) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(name, $until: s)'
-          )
-          .equals('@media(max-width:19.99em){.name--until-s{k:v}}');
-      });
-
-      it('Creates selector with misc media-query', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(name) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(name, $misc: landscape)'
-          )
-          .equals('@media(orientation:landscape){.name--when-landscape{k:v}}');
-      });
-
-      it('Creates selector with all media-queries', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(name) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(name, $from: s, $until: l, $misc: landscape)'
-          )
-          .equals('@media(min-width: 20em) and (max-width: 63.99em) and (orientation:landscape){.name--from-s--until-l--when-landscape{k:v}}');
-      });
-
-      it('Creates selector with all media-queries and modifier', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(name) {' +
-              '@include jigsass-classname($modifier: mod) {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(name, $from: s, $until: l, $misc: landscape, $modifier: mod)'
-          )
-          .equals('@media(min-width: 20em) and (max-width: 63.99em) and (orientation:landscape){.name--mod--from-s--until-l--when-landscape{k:v}}');
-      });
-
-      it('Creates selector where it was defined', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(defined-before) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '.after{ kk:vv }' +
-            '@include jigsass-object(defined-before)'
-          )
-          .equals('.defined-before{k:v}.after{kk:vv}');
-      });
-
-      it('Does not generate output for undefined objects', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlock(
-            '@include jigsass-define-object(defined) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(undefined)'
-          )
-          .doesNotCreateSelector('.undefined');
-      });
-
-      it('Does not generate output when called in silent mode', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlockAndArgs(
-            '@include jigsass-define-object(foo) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-object(foo);',
-            true
-          )
-          .equals('');
-      });
-
-      it('Does not generate output if it was called in silent mode at some point', ()=> {
-        sassaby.standaloneMixin('test-silent')
-          .calledWithBlockAndArgs(
-            '@include jigsass-define-object(foo) {' +
-              '@include jigsass-classname {' +
-                'k: v;' +
-              '}' +
-            '}' +
-            '@include jigsass-mute;' +
-            '@include jigsass-object(foo);' +
-            '@include jigsass-unmute;' +
-            '@include jigsass-object(foo);'
-          )
-          .equals('');
       });
     });
   });
@@ -733,41 +683,41 @@ describe('jigsass-tools-selectors', () => {
           )
           .equals(
             'test{' +
-							'selectors-map:(' +
-								'test-util:(' +
-									'no-breakpoint:(no-modifier:true),' +
-									'from-s:(no-modifier:false,mod:true),' +
-									'from-m:(no-modifier:false),' +
-									'from-l:(no-modifier:false),' +
-									'until-s:(no-modifier:false),' +
-									'until-m:(no-modifier:true),' +
-									'until-l:(no-modifier:false),' +
-									'from-s-until-m:(no-modifier:false),' +
-									'from-s-until-l:(no-modifier:false,mod:true),' +
-									'from-m-until-l:(no-modifier:false),' +
-									'when-landscape:(no-modifier:false),' +
-									'when-portrait:(no-modifier:false),' +
-									'from-s-when-landscape:(no-modifier:false),' +
-									'from-s-when-portrait:(no-modifier:false),' +
-									'from-m-when-landscape:(no-modifier:false),' +
-									'from-m-when-portrait:(no-modifier:false),' +
-									'from-l-when-landscape:(no-modifier:false),' +
-									'from-l-when-portrait:(no-modifier:false),' +
-									'until-s-when-landscape:(no-modifier:false),' +
-									'until-s-when-portrait:(no-modifier:false),' +
-									'until-m-when-landscape:(no-modifier:false),' +
-									'until-m-when-portrait:(no-modifier:false),' +
-									'until-l-when-landscape:(no-modifier:false),' +
-									'until-l-when-portrait:(no-modifier:false),' +
-									'from-s-until-m-when-landscape:(no-modifier:false),' +
-									'from-s-until-m-when-portrait:(no-modifier:false),' +
-									'from-s-until-l-when-landscape:(no-modifier:false),' +
-									'from-s-until-l-when-portrait:(no-modifier:false),' +
-									'from-m-until-l-when-landscape:(no-modifier:false),' +
-									'from-m-until-l-when-portrait:(no-modifier:false)' +
-								')' +
-							')' +
-						'}'
+              'selectors-map:(' +
+                'test-util:(' +
+                  'no-breakpoint:(no-modifier:true),' +
+                  'from-s:(no-modifier:false,mod:true),' +
+                  'from-m:(no-modifier:false),' +
+                  'from-l:(no-modifier:false),' +
+                  'until-s:(no-modifier:false),' +
+                  'until-m:(no-modifier:true),' +
+                  'until-l:(no-modifier:false),' +
+                  'from-s-until-m:(no-modifier:false),' +
+                  'from-s-until-l:(no-modifier:false,mod:true),' +
+                  'from-m-until-l:(no-modifier:false),' +
+                  'when-landscape:(no-modifier:false),' +
+                  'when-portrait:(no-modifier:false),' +
+                  'from-s-when-landscape:(no-modifier:false),' +
+                  'from-s-when-portrait:(no-modifier:false),' +
+                  'from-m-when-landscape:(no-modifier:false),' +
+                  'from-m-when-portrait:(no-modifier:false),' +
+                  'from-l-when-landscape:(no-modifier:false),' +
+                  'from-l-when-portrait:(no-modifier:false),' +
+                  'until-s-when-landscape:(no-modifier:false),' +
+                  'until-s-when-portrait:(no-modifier:false),' +
+                  'until-m-when-landscape:(no-modifier:false),' +
+                  'until-m-when-portrait:(no-modifier:false),' +
+                  'until-l-when-landscape:(no-modifier:false),' +
+                  'until-l-when-portrait:(no-modifier:false),' +
+                  'from-s-until-m-when-landscape:(no-modifier:false),' +
+                  'from-s-until-m-when-portrait:(no-modifier:false),' +
+                  'from-s-until-l-when-landscape:(no-modifier:false),' +
+                  'from-s-until-l-when-portrait:(no-modifier:false),' +
+                  'from-m-until-l-when-landscape:(no-modifier:false),' +
+                  'from-m-until-l-when-portrait:(no-modifier:false)' +
+                ')' +
+              ')' +
+            '}'
           );
       });
 
@@ -787,43 +737,43 @@ describe('jigsass-tools-selectors', () => {
             '}'
           )
           .equals(
-						'test{' +
-							'selectors-map:(' +
-								'test-util-silent:(' +
-									'no-breakpoint:(no-modifier:silent),' +
-									'from-s:(no-modifier:false,mod:true),' +
-									'from-m:(no-modifier:false),' +
-									'from-l:(no-modifier:false),' +
-									'until-s:(no-modifier:false),' +
-									'until-m:(no-modifier:true),' +
-									'until-l:(no-modifier:false),' +
-									'from-s-until-m:(no-modifier:false),' +
-									'from-s-until-l:(no-modifier:false,mod:true),' +
-									'from-m-until-l:(no-modifier:false),' +
-									'when-landscape:(no-modifier:false),' +
-									'when-portrait:(no-modifier:false),' +
-									'from-s-when-landscape:(no-modifier:false),' +
-									'from-s-when-portrait:(no-modifier:false),' +
-									'from-m-when-landscape:(no-modifier:false),' +
-									'from-m-when-portrait:(no-modifier:false),' +
-									'from-l-when-landscape:(no-modifier:false),' +
-									'from-l-when-portrait:(no-modifier:false),' +
-									'until-s-when-landscape:(no-modifier:false),' +
-									'until-s-when-portrait:(no-modifier:false),' +
-									'until-m-when-landscape:(no-modifier:false),' +
-									'until-m-when-portrait:(no-modifier:false),' +
-									'until-l-when-landscape:(no-modifier:false),' +
-									'until-l-when-portrait:(no-modifier:false),' +
-									'from-s-until-m-when-landscape:(no-modifier:false),' +
-									'from-s-until-m-when-portrait:(no-modifier:false),' +
-									'from-s-until-l-when-landscape:(no-modifier:false),' +
-									'from-s-until-l-when-portrait:(no-modifier:false),' +
-									'from-m-until-l-when-landscape:(no-modifier:false),' +
-									'from-m-until-l-when-portrait:(no-modifier:false)' +
-								')' +
-							')' +
-						'}'
-					);
+            'test{' +
+              'selectors-map:(' +
+                'test-util-silent:(' +
+                  'no-breakpoint:(no-modifier:silent),' +
+                  'from-s:(no-modifier:false,mod:true),' +
+                  'from-m:(no-modifier:false),' +
+                  'from-l:(no-modifier:false),' +
+                  'until-s:(no-modifier:false),' +
+                  'until-m:(no-modifier:true),' +
+                  'until-l:(no-modifier:false),' +
+                  'from-s-until-m:(no-modifier:false),' +
+                  'from-s-until-l:(no-modifier:false,mod:true),' +
+                  'from-m-until-l:(no-modifier:false),' +
+                  'when-landscape:(no-modifier:false),' +
+                  'when-portrait:(no-modifier:false),' +
+                  'from-s-when-landscape:(no-modifier:false),' +
+                  'from-s-when-portrait:(no-modifier:false),' +
+                  'from-m-when-landscape:(no-modifier:false),' +
+                  'from-m-when-portrait:(no-modifier:false),' +
+                  'from-l-when-landscape:(no-modifier:false),' +
+                  'from-l-when-portrait:(no-modifier:false),' +
+                  'until-s-when-landscape:(no-modifier:false),' +
+                  'until-s-when-portrait:(no-modifier:false),' +
+                  'until-m-when-landscape:(no-modifier:false),' +
+                  'until-m-when-portrait:(no-modifier:false),' +
+                  'until-l-when-landscape:(no-modifier:false),' +
+                  'until-l-when-portrait:(no-modifier:false),' +
+                  'from-s-until-m-when-landscape:(no-modifier:false),' +
+                  'from-s-until-m-when-portrait:(no-modifier:false),' +
+                  'from-s-until-l-when-landscape:(no-modifier:false),' +
+                  'from-s-until-l-when-portrait:(no-modifier:false),' +
+                  'from-m-until-l-when-landscape:(no-modifier:false),' +
+                  'from-m-until-l-when-portrait:(no-modifier:false)' +
+                ')' +
+              ')' +
+            '}'
+          );
       });
     });
 
@@ -977,20 +927,6 @@ describe('jigsass-tools-selectors', () => {
   });
 
   describe('_block.scss', () => {
-    describe('jigsass-define-block [Mixin]', () => {
-      it('Creates the correct placeholder selector', () => {
-        sassaby.standaloneMixin('jigsass-define-block')
-          .calledWithBlockAndArgs(
-            '$selector: str-slice(inspect(&), 2);' +
-            '@at-root { ' +
-              '#{$selector} { k:v }' +
-            '}',
-            'foo'
-          )
-          .createsSelector('__jigsass-block-foo')
-      });
-    });
-
     describe('jigsass-block [Mixin]', () => {
       it('Generates the correct css', () => {
         sassaby.standaloneMixin('test-silent')

@@ -22,6 +22,10 @@
   @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-typography`. ' +
     'Please import it before this file.';
 }
+@if (not function-exists(jigsass-deep-merge)) {
+  @error '`jigsass-tools-selectors` has a dependency on `jigsass-tools-maps`. ' +
+    'Please import it before this file.';
+}
 
 
 
@@ -54,11 +58,11 @@
 /// @group Selectors - 04 Define
 /// ---
 @function jigsass-get-obj-mq($type: false) {
-  @if($jigsass-obj-current-mq-args) {
+  @if($jigsass-obj-mq-args) {
     @return if(
       $type,
-      map-get($jigsass-obj-current-mq-args, $type),
-      $jigsass-obj-current-mq-args
+      map-get($jigsass-obj-mq-args, $type),
+      $jigsass-obj-mq-args
     );
   }
 
@@ -81,7 +85,7 @@
 /// ---
 /// @group Selectors - 05 Require
 /// ---
-$jigsass-obj-current-modifier: null;
+$jigsass-obj-modifier: null;
 
 /// The current media query arguments in the running
 /// context of the `jigsass-object` mixin to
@@ -98,7 +102,7 @@ $jigsass-obj-current-modifier: null;
 /// ---
 /// @group Selectors - 05 Require
 /// ---
-$jigsass-obj-current-mq-args: (from: false, until: false, misc: false);
+$jigsass-obj-mq-args: (from: false, until: false, misc: false);
 
 /// The name of the object in the current running
 /// context of the `jigsass-classname` mixin to
@@ -108,7 +112,17 @@ $jigsass-obj-current-mq-args: (from: false, until: false, misc: false);
 /// ---
 /// @group Selectors - 05 Require
 /// ---
-$jigsass-obj-current-name: null;
+$jigsass-obj-name: null;
+
+/// The cofiguration map of the object in the current
+/// running context of the `jigsass-object` mixin
+//  for be use inside `jigsass-classname` mixin.
+/// ---
+/// @type Null | Map
+/// ---
+/// @group Selectors - 05 Require
+/// ---
+$jigsass-obj-config: null;
 
 
 
@@ -118,7 +132,64 @@ $jigsass-obj-current-name: null;
 // Mixins
 // -------------------------------------
 
-/// Define a reusable object class.
+/// Define a reusable object class and generate it once,
+/// if it is enabled in configuration map.
+///
+/// By default, including the `jigsass-object` mixin will not generate
+/// any css. For any output to be generated, classes must be
+/// explicitly enabled in the associated configuration map (passed
+/// to the mixin as the `$config` param) _BEFORE_ the object is
+/// `@include`d.
+///
+/// The structure of configuration maps is:
+/// ```scss
+/// // _objects.foo.scss
+/// $foo-map: (
+///   no-breakpoint: (
+///     no-modifier: true,  // Enables generation of the `.o-foo`
+///                         // class outside of any media query.
+///     bar: true,          // Enables generation of the `.o-foo--bar`
+///                         // modifier class outside of any media query.
+///   ),
+///   from-<bp-name>: (
+///     no-modifier: true,  // Enables generation of the `.o-foo--from-<bp-name>`
+///                         // class inside a min-width media query
+///                         // defined ins `$jigsass-breakpoints.length`.
+///     bar: true,          // Enables generation of the `.o-foo--bar--from-<bp-name>`
+///                         // class inside a min-width media query
+///                         // defined ins `$jigsass-breakpoints.length`.
+///   ),
+///   until-<bp-name>: (
+///     no-modifier: true,  // Enables generation of the `.o-foo--until-<bp-name>`
+///                         // class inside a max-width media query
+///                         // defined ins `$jigsass-breakpoints.length`.
+///     bar: true,          // Enables generation of the `.o-foo--bar--until-<bp-name>`
+///                         // class inside a max-width media query
+///                         // defined ins `$jigsass-breakpoints.length`.
+///   ),
+///   when-<bp-name>: (
+///     no-modifier: true,  // Enables generation of the `.o-foo--when-<bp-name>`
+///                         // class inside a misc media query
+///                         // defined ins `$jigsass-breakpoints.features`.
+///     bar: true,          // Enables generation of the `.o-foo--bar--when-<bp-name>`
+///                         // class inside a misc media query
+///                         // defined ins `$jigsass-breakpoints.features`.
+///   ),
+///   from-<bp-name>-until-<bp-name>: (...);
+///   from-<bp-name>-when-<bp-name>: (...);
+///   until-<bp-name>-when-<bp-name>: (...);
+///   from-<bp-name>-until-<bp-name>-when-<bp-name>: (...);
+/// );
+/// ```
+///
+/// Regardless of how many times the `jigsass-object` mixin is
+/// included, each selector will only be generated once.
+///
+/// If `$jigsass-silent` is set to `true` when the mixin
+/// is first included for a certain selector, the selector
+/// will not be generated, even if the mixin is later included
+/// again for that selector when `$jigsass-silent` is set to false.
+///
 ///
 /// Use the `jigsass-classname` mixin inside this mixin's
 /// body to define the base object and each of it's modifiers
@@ -136,16 +207,18 @@ $jigsass-obj-current-name: null;
 /// @param {String} $name
 ///   The name of the object class being defined, sans modifiers.
 ///   A modifier's name
+/// @param {Map} $conf
+///   The configuration map in which the generation of the object's class
+///   and modifier classes are enabled.
 /// ---
 /// @example
-///   @include jigsass-define-object(box) {
-///     // Defines rules from `.box`
+///   @include jigsass-define-object(o-box, $box-config) {
+///     // Defines rules for `.o-box`
 ///     @include jigsass-classname() {
 ///       padding: if(jigsass-get-obj-mq(misc) == landscape, 24px 48px, 24px));
 ///     }
 ///
 ///     // Defines rules for `.box--cramped`
-///     @include jigsass-classname() {
 ///     @include jigsass-classname(box, $modifier: cramped) {
 ///       padding: 12px;
 ///     }
@@ -153,34 +226,65 @@ $jigsass-obj-current-name: null;
 /// ---
 /// @group Selectors - 04 Define
 /// ---
-@mixin jigsass-define-object($name) {
-  // Reset in global scope
-  $jigsass-obj-current-mq-args: (from: false, until: false, misc: false) !global;
-  $jigsass-obj-current-name: $name !global;
+@mixin jigsass-object($name, $config) {
+  // Reset media query args in global scope
+  $jigsass-obj-mq-args: (from: false, until: false, misc: false) !global;
+
+  // Set object name in global scope, so that it is
+  // available to `@content` blocks.
+  $jigsass-obj-name: $name !global;
+
+  // Set object config map in global scope, so that it is
+  // available to `@content` blocks.
+  $jigsass-obj-config: $config !global;
 
   $_lengths: jigsass-mq-sort-length-breakpoints();
   $_features: map-get($jigsass-breakpoints, features);
+
+  @if (
+    not (
+      global-variable-exists(_jigsass-selectors) and
+      map-has-key($_jigsass-selectors, $name)
+    )
+  ) {
+    $_jigsass-selectors: map-merge(
+      $_jigsass-selectors,
+      _jigsass-generate-selector-map($name)
+    );
+  }
+
+
 
   // Width breakpoints
   @if($_lengths) {
     // Min width breakpoints
     @each $bp-min, $length-min in $_lengths {
-      @include jigsass-mq($from: $bp-min) {
-        @if ($length-min != 0) {
-          $jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: false) !global;
-        }
+      $_bp-str: _jigsass-bp-string($bp-min, false, false);
+      @if (map-has-key($config, $_bp-str)) {
+        @include jigsass-mq($from: $bp-min) {
+          @if ($length-min != 0) {
+            // Set current mq args in global scope, so that
+            // they are available to `@content` blocks.
+            $jigsass-obj-mq-args: (from: $bp-min, until: false, misc: false) !global;
+          }
 
-        @content;
+          @content;
+        }
       }
     }
 
     // Max width breakpoints
     @each $bp-max, $length-max in $_lengths {
-      @if (jigsass-strip-unit($length-max) != 0) {
-        @include jigsass-mq($until: $bp-max) {
-          $jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: false) !global;
+      $_bp-str: _jigsass-bp-string(false, $bp-max, false);
+      @if (map-has-key($config, $_bp-str)) {
+        @if (jigsass-strip-unit($length-max) != 0) {
+          @include jigsass-mq($until: $bp-max) {
+            // Set current mq args in global scope, so that
+            // they are available to `@content` blocks.
+            $jigsass-obj-mq-args: (from: false, until: $bp-max, misc: false) !global;
 
-          @content;
+            @content;
+          }
         }
       }
     }
@@ -188,15 +292,20 @@ $jigsass-obj-current-name: null;
     // Min and max width breakpoints
     @each $bp-min, $length-min in $_lengths {
       @each $bp-max, $length-max in $_lengths {
-        @if (
-          jigsass-strip-unit($length-min) != 0 and
-          jigsass-strip-unit($length-max) != 0 and
-          $length-max > $length-min
-        ) {
-          @include jigsass-mq($from: $bp-min, $until: $bp-max) {
-            $jigsass-obj-current-mq-args: (from: $bp-min, until: $bp-max, misc: false) !global;
+        $_bp-str: _jigsass-bp-string($bp-min, $bp-max, false);
+        @if (map-has-key($config, $_bp-str)) {
+          @if (
+            jigsass-strip-unit($length-min) != 0 and
+            jigsass-strip-unit($length-max) != 0 and
+            $length-max > $length-min
+          ) {
+            @include jigsass-mq($from: $bp-min, $until: $bp-max) {
+              // Set current mq args in global scope, so that
+              // they are available to `@content` blocks.
+              $jigsass-obj-mq-args: (from: $bp-min, until: $bp-max, misc: false) !global;
 
-            @content;
+              @content;
+            }
           }
         }
       }
@@ -206,10 +315,15 @@ $jigsass-obj-current-name: null;
   // Misc media query features breakpoints
   @if ($_features) {
     @each $misc-bp, $expression in $_features {
-      @include jigsass-mq($misc: $misc-bp) {
-        $jigsass-obj-current-mq-args: (from: false, until: false, misc: $misc-bp) !global;
+      $_bp-str: _jigsass-bp-string(false, false, $misc-bp);
+      @if (map-has-key($config, $_bp-str)) {
+        @include jigsass-mq($misc: $misc-bp) {
+          // Set current mq args in global scope, so that
+          // they are available to `@content` blocks.
+          $jigsass-obj-mq-args: (from: false, until: false, misc: $misc-bp) !global;
 
-        @content;
+          @content;
+        }
       }
     }
 
@@ -219,10 +333,15 @@ $jigsass-obj-current-name: null;
       @each $bp-min, $length-min in $_lengths {
         @if (jigsass-strip-unit($length-min) != 0) {
           @each $misc-bp, $expression in $_features {
-            @include jigsass-mq($from: $bp-min, $misc: $misc-bp) {
-              $jigsass-obj-current-mq-args: (from: $bp-min, until: false, misc: $misc-bp) !global;
+            $_bp-str: _jigsass-bp-string($bp-min, false, $misc-bp);
+            @if (map-has-key($config, $_bp-str)) {
+              @include jigsass-mq($from: $bp-min, $misc: $misc-bp) {
+                // Set current mq args in global scope, so that
+                // they are available to `@content` blocks.
+                $jigsass-obj-mq-args: (from: $bp-min, until: false, misc: $misc-bp) !global;
 
-              @content;
+                @content;
+              }
             }
           }
         }
@@ -232,10 +351,15 @@ $jigsass-obj-current-name: null;
       @each $bp-max, $length-max in $_lengths {
         @if (jigsass-strip-unit($length-max) != 0) {
           @each $misc-bp, $expression in $_features {
-            @include jigsass-mq($until: $bp-max, $misc: $misc-bp) {
-              $jigsass-obj-current-mq-args: (from: false, until: $bp-max, misc: $misc-bp) !global;
+            $_bp-str: _jigsass-bp-string(false, $bp-max, $misc-bp);
+            @if (map-has-key($config, $_bp-str)) {
+              @include jigsass-mq($until: $bp-max, $misc: $misc-bp) {
+                // Set current mq args in global scope, so that
+                // they are available to `@content` blocks.
+                $jigsass-obj-mq-args: (from: false, until: $bp-max, misc: $misc-bp) !global;
 
-              @content;
+                @content;
+              }
             }
           }
         }
@@ -250,14 +374,14 @@ $jigsass-obj-current-name: null;
             $length-max > $length-min
           ) {
             @each $misc-bp, $expression in $_features {
-              @include jigsass-mq($from: $bp-min, $until: $bp-max, $misc: $misc-bp) {
-                $jigsass-obj-current-mq-args: (
-                  from: $bp-min,
-                  until: $bp-max,
-                  misc: $misc-bp
-                ) !global;
-
-                @content;
+              $_bp-str: _jigsass-bp-string($bp-min, $bp-max, $misc-bp);
+              @if (map-has-key($config, $_bp-str)) {
+                @include jigsass-mq($from: $bp-min, $until: $bp-max, $misc: $misc-bp) {
+                  // Set current mq args in global scope, so that
+                  // they are available to `@content` blocks.
+                  $jigsass-obj-mq-args: (from: $bp-min, until: $bp-max, misc: $misc-bp) !global;
+                  @content;
+                }
               }
             }
           }
@@ -267,79 +391,16 @@ $jigsass-obj-current-name: null;
   }
 
   // Reset in global scope
-  $jigsass-obj-current-mq-args: (from: false, until: false, misc: false) !global;
-  $jigsass-obj-current-name: null !global;
+  $jigsass-obj-mq-args: (from: false, until: false, misc: false) !global;
+  $jigsass-obj-name: null !global;
+  $jigsass-obj-config: null !global;
 }
 
-
-/// Generate CSS of an object class
-///
-/// No matter how many times the mixin is called with a
-/// certain set of argument, only a single selector will
-/// be created in the generated CSS.
-///
-/// **The generated class will be created where it
-/// was defined**, not where it was called.
-///
-/// If `$jigsass-silent` is set to `true` when the mixin
-/// is first called with a certain set of argument, no class
-/// will be generated for that argument set.
-/// ---
-/// @param {String} $name
-///   The name of the object to generate, as previously
-///   defined by calling jigsass-define-object
-/// @param {String | Boolean} $from
-///   The name of breakpoint used as the min-width condition.
-/// @param {String | Boolean} $until
-///   The name of breakpoint used as the max-width condition.
-/// @param {String | Boolean} $misc
-///   The name of a miscellaneous media query condition.
-/// @param {String | Boolean} $modifier
-///   A modifier's name as previously
-///   defined by calling jigsass-define-object
-/// ---
-/// @group Selectors - 05 Require
-/// ---
-@mixin jigsass-object($name, $from: false, $until: false, $misc: false, $modifier: false) {
-  // Check if selector was already generated
-  $_was-included: _jigsass-class-was-included($name, $from, $until, $misc, $modifier);
-
-  // Generate selector.
-  // Will only generate CSS once, where it was defined,
-  // regardless of how many times `jigsass-object` was called
-  // with the same arguments.
-  @if (not $_was-included) {
-    // Check that we are not in silent mode
-    @if (not $jigsass-silent) {
-      @include jigsass-mq($from, $until, $misc) {
-        $selector-str: _jigsass-gen-class-name($name, $from, $until, $misc, $modifier);
-
-        .#{$selector-str} {
-          @extend %#{$selector-str};
-        }
-      }
-    }
-
-    $_bp-str: _jigsass-bp-string($from, $until, $misc);
-
-    // Set class as defined in the `$_jigsass-selectors` map.
-    $_selector-map: (
-      $name: (
-        $_bp-str: (
-          $modifier or no-modifier: if($jigsass-silent, silent, true)
-        )
-      )
-    );
-
-    @if (not global-variable-exists(_jigsass-selectors)) { $_jigsass-selectors: () !global; }
-    $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
-  }
-}
 
 /// Generate an object or object-modifier class name inside
 /// `jigsass-define-object`
 /// ---
-/// @param {String} $name [$jigsass-obj-current-name]
+/// @param {String} $name [$jigsass-obj-name]
 ///   The object's base name. defaults to the name that was
 ///   passed in the calling `jigsass-define-object` mixin
 /// @param {String | Number | false} $modifier [false]
@@ -359,34 +420,67 @@ $jigsass-obj-current-name: null;
 ///     }
 ///   }
 /// ---
-/// @see {mixin} jigsass-define-object
+/// @see {mixin} jigsass-object
 /// ---
 /// @group Selectors - 04 Define
 /// ---
-@mixin jigsass-classname($name: $jigsass-obj-current-name, $modifier: false) {
+@mixin jigsass-classname($modifier: false, $name: $jigsass-obj-name) {
   @if (not $name) {
-    @error 'jigsass-classname: A `$name` is required for generating a selector.'
+    @error 'jigsass-classname: A `$name` is required for generating a selector.';
   }
-  // Make the current modifier available to `@content`
-  $jigsass-obj-current-modifier: $modifier !global;
-
   $from: jigsass-get-obj-mq(from);
   $until: jigsass-get-obj-mq(until);
   $misc: jigsass-get-obj-mq(misc);
-  $selector-str: _jigsass-gen-class-name($name, $from, $until, $misc, $modifier);
+  $bp-str: _jigsass-bp-string($from, $until, $misc);
 
-  // Make sure $modifier is not called `no-modifier`.
-  @if ($modifier) {
+  @if (
+    map-get($jigsass-obj-config, $bp-str) and
+    jigsass-get($jigsass-obj-config, $bp-str, $modifier or no-modifier)
+  ) {
+    // Make the current modifier available to `@content`
+    $jigsass-obj-modifier: $modifier !global;
+
+    $name: $jigsass-obj-name;
+    $selector-str: _jigsass-gen-class-name($name, $from, $until, $misc, $modifier);
+
+    // Make sure $modifier is not called `no-modifier`.
     @if ($modifier == 'no-modifier') {
-      @error 'jigsass-classname: A jigsass class modifier cannot be called `no-modifier` ' +
-        '(from #{$name}).';
+      @error 'jigsass-classname: A jigsass class modifier cannot be called ' +
+        '`no-modifier` (from #{$name}).';
     }
-  }
 
-  %#{$selector-str} {
-    @content;
-  }
+    // Check if selector was already generated
+    $_was-included: _jigsass-class-was-included($name, $from, $until, $misc, $modifier);
 
-  // Reset the current modifier globally
-  $jigsass-obj-current-modifier: false !global;
+    // Generate selector.
+    // Will only generate CSS once, where it was first included,
+    // regardless of how many times `jigsass-object` was called
+    // with the same arguments.
+    @if (not $_was-included) {
+      // Check that we are not in silent mode
+      @if (not $jigsass-silent) {
+        $selector-str: _jigsass-gen-class-name($name, $from, $until, $misc, $modifier);
+
+        .#{$selector-str} {
+          @content;
+        }
+      }
+
+      // Set class as defined in the `$_jigsass-selectors` map.
+      $_selector-map: (
+        $name: (
+          $bp-str: (
+            $modifier or no-modifier: if($jigsass-silent, silent, true)
+          )
+        )
+      );
+
+      @if (not global-variable-exists(_jigsass-selectors)) { $_jigsass-selectors: () !global; }
+      $_jigsass-selectors: jigsass-deep-merge($_jigsass-selectors, $_selector-map) !global;
+    }
+
+
+    // Reset the current modifier globally
+    $jigsass-obj-modifier: null !global;
+  }
 }
