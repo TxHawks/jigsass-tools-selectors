@@ -71,50 +71,16 @@ $_jigsass-selector-map: false;
   $_max-str: '';
   $_misc-str: '';
   $_mod-str: if($modifier and $modifier != '', '--#{$modifier}', '');
+  $_bp-str: _jigsass-bp-string($from, $until, $misc);
+  $_bp-str: if($_bp-str == 'no-breakpoint', '', '--#{$_bp-str}');
 
-  @if ($from) {
-    $_from-length: jigsass-mq-get-breakpoint-width($from);
-
-    @if (type-of($_from-length) != number) {
-      @error '_jigsass-gen-class-name: #{$from} is not defined in the lengths breakpoints map ' +
-        '(from #{$name}).';
-    }
-
-    $from: if(type-of($_from-length) == number and $_from-length > 0, $from, false);
-    $_min-str: if($from, '--from-#{$from}', '');
-  }
-
-  @if ($until) {
-    $_until-length: jigsass-mq-get-breakpoint-width($until);
-
-    @if (type-of($_until-length) != number) {
-      @error '_jigsass-gen-class-name: #{$until} is not defined in the lengths breakpoints map ' +
-        '(from #{$name}).';
-    }
-
-    $until: if(type-of($_until-length) == number and $_until-length > 0, $until, false);
-    $_max-str: if($until, '--until-#{$until}', '');
-  }
-
-  @if ($misc) {
-    $_features: map-get($jigsass-breakpoints, features);
-    $_misc: if($_features, map-get($_features, $misc), false);
-
-    @if (not $_misc) {
-      @error '_jigsass-gen-class-name: #{$misc} is not defined in the misc features ' +
-        'breakpoints map (from #{$name}).';
-    }
-
-    $_misc-str: if($_misc, '--when-#{$misc}', '');
-  }
-
-  @return #{jigsass-get-namespace()}#{$name}#{$_mod-str}#{$_min-str}#{$_max-str}#{$_misc-str};
+  @return #{jigsass-get-namespace()}#{$name}#{$_mod-str}#{$_bp-str};
 }
 
 
 /// Check if a class was already included
 /// ---
-/// @param {String | Boolean} $name - The name of the object or util.
+/// @param {String} $name - The name of the object or util.
 /// @param {String | Boolean} $from - The name of breakpoint used as the min-width condition.
 /// @param {String | Boolean} $until - The name of breakpoint used as the max-width condition.
 /// @param {String | Boolean} $misc - The name of a miscellaneous media query condition.
@@ -127,7 +93,7 @@ $_jigsass-selector-map: false;
 /// ---
 @function _jigsass-class-was-included($name, $from, $until, $misc, $modifier) {
   @if (not function-exists(jigsass-get)) {
-    @error '`_jigsass-selector-was-defined()` has a dependency on ' +
+    @error '`_jigsass-selector-was-inclded()` has a dependency on ' +
       '`jigsass-tools-maps`. Please import it.';
   }
 
@@ -298,7 +264,7 @@ $_jigsass-selector-map: false;
   }
 
   // Generate selector-map if it has not already been cached.
-  @else {}
+  @else {
     $_lengths: jigsass-mq-sort-length-breakpoints(map-get($bps, lengths));
     $_features: map-get($bps, features);
 
