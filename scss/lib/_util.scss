@@ -145,8 +145,7 @@ $jigsass-util-mq-args: (from: false, until: false, misc: false);
 /// will be generated for that argument set.
 /// ---
 /// @param {String} $name
-///   The name of the object to generate, as previously
-///   defined by calling jigsass-define-object
+///   The base-name of the util class to generate
 /// @param {String | Boolean} $from
 ///   The name of breakpoint used as the min-width condition.
 /// @param {String | Boolean} $until

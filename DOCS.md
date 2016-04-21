@@ -121,7 +121,7 @@ $media-item-conf: (
   ),
 );
 
-@jigsass-define-object(o-media, $media-conf) {
+@jigsass-object(o-media, $media-conf) {
   @include jigsass-classname {
     display: flex;
   }
@@ -135,7 +135,7 @@ $media-item-conf: (
   }
 }
 
-@jigsass-define-object(o-media__item, $media-item-conf) {
+@jigsass-object(o-media__item, $media-item-conf) {
   @include jigsass-classname($modifier: bottom) {
     align-self: flex-end;
   }

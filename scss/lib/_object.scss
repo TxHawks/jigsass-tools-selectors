@@ -36,7 +36,7 @@
 // -------------------------------------
 
 /// Get media query arguments of current context.
-/// For use inside `jigsass-define-object`.
+/// For use inside `jigsass-object`.
 ///
 /// When called inside the `@contnet` block without arguments,
 /// it will return a map with `from`, `until` and `misc` keys,
@@ -212,7 +212,7 @@ $jigsass-obj-config: null;
 ///   and modifier classes are enabled.
 /// ---
 /// @example
-///   @include jigsass-define-object(o-box, $box-config) {
+///   @include jigsass-object(o-box, $box-config) {
 ///     // Defines rules for `.o-box`
 ///     @include jigsass-classname() {
 ///       padding: if(jigsass-get-obj-mq(misc) == landscape, 24px 48px, 24px));
@@ -398,16 +398,16 @@ $jigsass-obj-config: null;
 
 
 /// Generate an object or object-modifier class name inside
-/// `jigsass-define-object`
+/// `jigsass-object`
 /// ---
-/// @param {String} $name [$jigsass-obj-name]
-///   The object's base name. defaults to the name that was
-///   passed in the calling `jigsass-define-object` mixin
 /// @param {String | Number | false} $modifier [false]
 ///   A modifier's name
+/// @param {String} $name [$jigsass-obj-name]
+///   The object's base name. defaults to the name that was
+///   passed in the calling `jigsass-object` mixin
 /// ---
 /// @example
-///   @include jigsass-define-object(box) {
+///   @include jigsass-object(box) {
 ///     // Defines rules from `.box`
 ///     @include jigsass-classname() {
 ///       padding: if(jigsass-get-obj-mq(misc) == landscape, 24px 48px, 24px));
