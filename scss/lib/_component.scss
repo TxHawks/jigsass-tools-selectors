@@ -64,7 +64,9 @@
   // Will only generate if not already included and not in silent mode
   @if (not map-get($_jigsass-selectors, $name)) {
     @if (not $jigsass-silent) {
-      @content;
+      @at-root (without: all) {
+        @content;
+      }
 
       // store component as included in the `$_jigsass-selectors` map.
       $_jigsass-selectors: map-merge($_jigsass-selectors, ($name: true)) !global;
